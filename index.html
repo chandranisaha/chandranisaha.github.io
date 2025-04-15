@@ -3,76 +3,189 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chandrani Saha | Portfolio</title>
+  <title>CS | Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="assets/sun-moon-icon.png" />
 </head>
 <body>
-  <header>
+  <header id="header">
     <nav>
-      <h1>Chandrani Saha</h1>
-      <button id="theme-toggle">
-        <img src="assets/sun-icon.png" alt="Sun Icon" id="sun-icon" class="theme-icon" />
-        <img src="assets/moon-icon.png" alt="Moon Icon" id="moon-icon" class="theme-icon" />
-      </button>
+      <h1>CS</h1>
+      <div class="nav-links">
+        <a href="#hero">Home</a>
+        <a href="#about">About</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#education">Education</a>
+        <a href="#achievements">Achievements</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#extras">Other Info</a>
+        <a href="#text-analyzer">Text Tool</a>
+        <button id="theme-toggle">
+          <img src="assets/sun-icon.png" alt="Sun Icon" id="sun-icon" class="theme-icon" />
+          <img src="assets/moon-icon.png" alt="Moon Icon" id="moon-icon" class="theme-icon" />
+        </button>
+      </div>
     </nav>
   </header>
 
   <main>
+    <section id="hero" class="hero-section">
+      <h1>Chandrani Saha</h1>
+      <h2>B.Tech and MS Dual Degree in Computational Natural Sciences</h2>
+      <div class="hero-links">
+        <a href="mailto:chandranis026@gmail.com" class="contact-btn">
+          <img src="assets/email-icon.png" alt="Email" class="icon">
+          Email
+        </a>
+        <a href="https://linkedin.com/in/chandranisaha" target="_blank" class="contact-btn">
+          <img src="assets/linkedin-icon.png" alt="LinkedIn" class="icon">
+          LinkedIn
+        </a>
+        <a href="https://github.com/chandranisaha" target="_blank" class="contact-btn">
+          <img src="assets/github-icon.png" alt="GitHub" class="icon">
+          GitHub
+        </a>
+        <a href="tel:+919007434664" class="contact-btn">
+          <img src="assets/phone-icon.png" alt="Phone" class="icon">
+          Phone
+        </a>
+      </div>
+      <div class="scroll-indicator">
+        <p>Scroll to explore</p>
+        <div class="scroll-arrow">↓</div>
+      </div>
+    </section>
+
     <section id="about" class="track" data-type="text">
       <h2>About Me</h2>
-      <img src="assets/img1.jpeg" alt="Profile Photo" class="track" data-type="image" loading="lazy">
-      <p>
-        First-year B.Tech and MS Dual Degree student in Computational Natural Sciences at IIIT Hyderabad with a strong academic foundation in computing and science. Quick learner, team player, and highly motivated individual with an eagerness to explore and contribute to real-world projects. Strong inclination towards entrepreneurship, always enthusiastic about new ideas and innovation.
-      </p>
-      <p>Email: <a href="mailto:chandranis026@gmail.com" class="email-btn">chandranis026@gmail.com</a><br>Phone: +91 9007434664<br>Location: Hyderabad, India</p>
-      <p>
-        LinkedIn: <a href="https://linkedin.com/in/chandranisaha" target="_blank" class="social-btn">LinkedIn</a><br>
-        GitHub: <a href="https://github.com/chandranisaha" target="_blank" class="social-btn">GitHub</a>
-      </p>
+      <div class="about-container">
+        <div class="about-image">
+          <img src="assets/img1.jpeg" alt="Profile Photo" class="track" data-type="image" loading="lazy">
+        </div>
+        <div class="about-text">
+          <p>
+            First-year B.Tech and MS Dual Degree student in Computational Natural Sciences at IIIT Hyderabad with a strong academic foundation in computing and science. Quick learner, team player, and highly motivated individual with an eagerness to explore and contribute to real-world projects. Strong inclination towards entrepreneurship, always enthusiastic about new ideas and innovation.
+          </p>
+          <p>Email: <a href="mailto:chandranis026@gmail.com" class="email-btn">chandranis026@gmail.com</a><br>Phone: +91 9007434664<br>Location: Hyderabad, India</p>
+          <p>
+            LinkedIn: <a href="https://linkedin.com/in/chandranisaha" target="_blank" class="social-btn">LinkedIn</a><br>
+            GitHub: <a href="https://github.com/chandranisaha" target="_blank" class="social-btn">GitHub</a>
+          </p>
+        </div>
+      </div>
     </section>
 
     <section id="gallery" class="track" data-type="image">
       <h2>Gallery</h2>
       <div class="carousel">
-        <img src="assets/img2.jpeg" alt="Birthplace Photo 1" loading="lazy">
-        <img src="assets/img3.jpeg" alt="Birthplace Photo 2" loading="lazy">
-        <img src="assets/img4.jpeg" alt="Birthplace Photo 3" loading="lazy">
-        <img src="assets/img5.jpeg" alt="Birthplace Photo 4" loading="lazy">
-        <img src="assets/img6.jpeg" alt="Birthplace Photo 5" loading="lazy">
-        <img src="assets/img7.jpeg" alt="Birthplace Photo 6" loading="lazy">
+        <div class="gallery-item">
+          <img src="assets/img2.jpeg" alt="Birthplace Photo 1" loading="lazy">
+          <div class="overlay">
+            <div class="overlay-content">Birthplace 1</div>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="assets/img3.jpeg" alt="Birthplace Photo 2" loading="lazy">
+          <div class="overlay">
+            <div class="overlay-content">Birthplace 2</div>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="assets/img4.jpeg" alt="Birthplace Photo 3" loading="lazy">
+          <div class="overlay">
+            <div class="overlay-content">Birthplace 3</div>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="assets/img5.jpeg" alt="Birthplace Photo 4" loading="lazy">
+          <div class="overlay">
+            <div class="overlay-content">Birthplace 4</div>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="assets/img6.jpeg" alt="Birthplace Photo 5" loading="lazy">
+          <div class="overlay">
+            <div class="overlay-content">Birthplace 5</div>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="assets/img7.jpeg" alt="Birthplace Photo 6" loading="lazy">
+          <div class="overlay">
+            <div class="overlay-content">Birthplace 6</div>
+          </div>
+        </div>
       </div>
     </section>
 
     <section id="education" class="track" data-type="text">
       <h2>Education</h2>
       <ul>
-        <li><strong>International Institute of Information Technology, Hyderabad (IIITH)</strong><br>B.Tech and MS Dual Degree in Computational Natural Sciences (2024 – 2029, Expected)<br>CGPA: 7.3 (after 1st Semester), Second semester CGPA awaited<br>Courses: Computer Programming, Data Structures and Algorithms, Computing in Sciences 1 and 2, Discrete Structures, Real Analysis, Linear Algebra, Classical Mechanics, Electrodynamics</li>
-        <li><strong>G.D. Birla Centre for Education, Kolkata, West Bengal</strong><br>ISC (Class 12): 99%<br>ICSE (Class 10): 98%</li>
+        <li>
+          <div class="education-item">
+            <h3>International Institute of Information Technology, Hyderabad (IIITH)</h3>
+            <p>B.Tech and MS Dual Degree in Computational Natural Sciences (2024 – 2029, Expected)</p>
+            <p>CGPA: 7.3 (after 1st Semester), Second semester CGPA awaited</p>
+            <p>Courses: Computer Programming, Data Structures and Algorithms, Computing in Sciences 1 and 2, Discrete Structures, Real Analysis, Linear Algebra, Classical Mechanics, Electrodynamics</p>
+          </div>
+        </li>
+        <li>
+          <div class="education-item">
+            <h3>G.D. Birla Centre for Education, Kolkata, West Bengal</h3>
+            <p>ISC (Class 12): 99%</p>
+            <p>ICSE (Class 10): 98%</p>
+          </div>
+        </li>
       </ul>
     </section>
 
     <section id="achievements" class="track" data-type="text">
       <h2>Achievements</h2>
-      <ul>
-        <li><strong>JBNSTS Scholar – 2022</strong>: Awarded by the Government of West Bengal for outstanding scientific aptitude and potential.</li>
-        <li><strong>INSPIRE SHE Scholarship – 2023</strong>: Awarded to top-performing female students in science by the Department of Science and Technology, Government of India.</li>
-      </ul>
+      <div class="achievements-container">
+        <div class="achievement-item">
+          <h3>JBNSTS Scholar – 2022</h3>
+          <p>Awarded by the Government of West Bengal for outstanding scientific aptitude and potential.</p>
+        </div>
+        <div class="achievement-item">
+          <h3>INSPIRE SHE Scholarship – 2023</h3>
+          <p>Awarded to top-performing female students in science by the Department of Science and Technology, Government of India.</p>
+        </div>
+      </div>
     </section>
 
     <section id="projects" class="track" data-type="text">
       <h2>Projects</h2>
-      <p><strong>Rexwo – AI-powered HealthTech Startup (2025)</strong><br>Building an AI-powered healthtech app as part of the StartUp Aid competition by E-Cell IIITH. Focused on predictive analysis and digital health management using AI.</p>
+      <div class="project-item">
+        <h3>Rexwo – AI-powered HealthTech Startup (2025)</h3>
+        <p>Building an AI-powered healthtech app as part of the StartUp Aid competition by E-Cell IIITH. Focused on predictive analysis and digital health management using AI.</p>
+      </div>
     </section>
 
     <section id="skills" class="track" data-type="text">
       <h2>Technical Skills</h2>
-      <p><strong>Languages:</strong> C, Java, C++, Python, JavaScript</p>
-      <p><strong>Web Technologies:</strong> HTML, CSS</p>
-      <p><strong>Databases:</strong> SQL, NoSQL (MongoDB basics)</p>
-      <p><strong>Tools:</strong> Git, VS Code, Eclipse, Linux</p>
-      <p><strong>Core Concepts:</strong> Object-Oriented Programming, Data Structures, Algorithms</p>
+      <div class="skills-container">
+        <div class="skill-category">
+          <h3>Languages</h3>
+          <p>C, Java, C++, Python, JavaScript</p>
+        </div>
+        <div class="skill-category">
+          <h3>Web Technologies</h3>
+          <p>HTML, CSS</p>
+        </div>
+        <div class="skill-category">
+          <h3>Databases</h3>
+          <p>SQL, NoSQL (MongoDB basics)</p>
+        </div>
+        <div class="skill-category">
+          <h3>Tools</h3>
+          <p>Git, VS Code, Eclipse, Linux</p>
+        </div>
+        <div class="skill-category">
+          <h3>Core Concepts</h3>
+          <p>Object-Oriented Programming, Data Structures, Algorithms</p>
+        </div>
+      </div>
     </section>
 
     <section id="cv">
@@ -82,27 +195,45 @@
 
     <section id="extras" class="track" data-type="text">
       <h2>Other Information</h2>
-      <p><strong>Soft Skills:</strong> Leadership, Communication, Critical Thinking, Teamwork, Initiative</p>
-      <p><strong>Creative Interests:</strong> Music, Painting, Dancing</p>
-      <p><strong>Leadership & Extracurricular Activities:</strong></p>
-      <ul>
-        <li>Public Relations Team Member, E-Cell, IIIT Hyderabad</li>
-        <li>Marketing Team Member, Ping! IIIT Hyderabad</li>
-        <li>Social Media Team, ArtSociety & The Dance Crew, IIIT Hyderabad</li>
-        <li>Performance Team, Cyclorama IIITH</li>
-        <li>Social Media Team, Felicity 2024, IIIT Hyderabad</li>
-      </ul>
-      <p><strong>Volunteer Experience:</strong></p>
-      <ul>
-        <li>Volunteer, ISKCON Kolkata – organized community outreach, food distribution, and events.</li>
-      </ul>
-      <p><strong>Languages Known:</strong> English (Fluent), Bengali (Native), Hindi (Proficient)</p>
+      <div class="extras-grid">
+        <div class="extras-item">
+          <h3>Soft Skills</h3>
+          <p>Leadership, Communication, Critical Thinking, Teamwork, Initiative</p>
+        </div>
+        <div class="extras-item">
+          <h3>Creative Interests</h3>
+          <p>Music, Painting, Dancing</p>
+        </div>
+        <div class="extras-item">
+          <h3>Leadership & Extracurricular Activities</h3>
+          <ul>
+            <li>Public Relations Team Member, E-Cell, IIIT Hyderabad</li>
+            <li>Marketing Team Member, Ping! IIIT Hyderabad</li>
+            <li>Social Media Team, ArtSociety & The Dance Crew, IIIT Hyderabad</li>
+            <li>Performance Team, Cyclorama IIITH</li>
+            <li>Social Media Team, Felicity 2024, IIIT Hyderabad</li>
+          </ul>
+        </div>
+        <div class="extras-item">
+          <h3>Volunteer Experience</h3>
+          <ul>
+            <li>Volunteer, ISKCON Kolkata – organized community outreach, food distribution, and events.</li>
+          </ul>
+        </div>
+        <div class="extras-item">
+          <h3>Languages Known</h3>
+          <p>English (Fluent), Bengali (Native), Hindi (Proficient)</p>
+        </div>
+      </div>
     </section>
 
-    <section id="text-analyzer">
+    <section id="text-analyzer" class="track" data-type="text">
       <h2>Text Analysis Tool</h2>
-      <textarea id="text-input" placeholder="Paste your text here (up to 10,000+ words)..." class="track" data-type="text"></textarea>
-      <div id="text-stats"></div>
+      <div class="analyzer-container">
+        <textarea id="text-input" placeholder="Paste your text here (unlimited words)..." class="track" data-type="text"></textarea>
+        <button id="analyze-btn" class="analyze-btn">Analyze Text</button>
+        <div id="text-stats" class="text-stats"></div>
+      </div>
     </section>
   </main>
 
