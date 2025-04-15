@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function() {
       lastScrollTop = scrollTop;
     });
   
-    // Text analyzer functionality
+    // Enhanced Text analyzer functionality
     const textInput = document.getElementById("text-input");
     const textStats = document.getElementById("text-stats");
     const analyzeBtn = document.getElementById("analyze-btn");
@@ -107,15 +107,16 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   
     function analyzeText() {
-      const text = textInput.value.trim();
+      const text = textInput.value;
       
       if (!text) {
         textStats.innerHTML = "<p>Please enter some text to analyze.</p>";
         return;
       }
-  
-      // Count words
-      const words = text.split(/\s+/).filter(word => word.length > 0);
+      
+      // Basic text statistics
+      const trimmedText = text.trim();
+      const words = trimmedText.split(/\s+/).filter(word => word.length > 0);
       const wordCount = words.length;
       
       // Count characters (with and without spaces)
@@ -123,11 +124,11 @@ document.addEventListener("DOMContentLoaded", function() {
       const charCountNoSpaces = text.replace(/\s+/g, "").length;
       
       // Count sentences
-      const sentences = text.split(/[.!?]+/).filter(sentence => sentence.trim().length > 0);
+      const sentences = trimmedText.split(/[.!?]+/).filter(sentence => sentence.trim().length > 0);
       const sentenceCount = sentences.length;
       
       // Count paragraphs
-      const paragraphs = text.split(/\n\s*\n/).filter(para => para.trim().length > 0);
+      const paragraphs = trimmedText.split(/\n\s*\n/).filter(para => para.trim().length > 0);
       const paragraphCount = paragraphs.length;
       
       // Calculate reading time (average reading speed: 200 words per minute)
@@ -167,47 +168,206 @@ document.addEventListener("DOMContentLoaded", function() {
       // Calculate average sentence length
       const avgWordsPerSentence = sentenceCount > 0 ? (wordCount / sentenceCount).toFixed(1) : 0;
       
+      // NEW ANALYSIS FEATURES
+      
+      // 1. Count letters, spaces, newlines, and special symbols
+      const letterCount = (text.match(/[a-zA-Z]/g) || []).length;
+      const spaceCount = (text.match(/\s/g) || []).length;
+      const newlineCount = (text.match(/\n/g) || []).length;
+      const specialSymbolCount = (text.match(/[^\w\s]/g) || []).length;
+      
+      // 2. Tokenize and count pronouns
+      const pronouns = [
+        "i", "me", "my", "mine", "myself",
+        "you", "your", "yours", "yourself", "yourselves",
+        "he", "him", "his", "himself",
+        "she", "her", "hers", "herself",
+        "it", "its", "itself",
+        "we", "us", "our", "ours", "ourselves",
+        "they", "them", "their", "theirs", "themselves",
+        "this", "that", "these", "those",
+        "who", "whom", "whose", "which", "what"
+      ];
+      
+      const pronounCounts = {};
+      words.forEach(word => {
+        const cleanWord = word.toLowerCase().replace(/[^\w]|_/g, "");
+        if (pronouns.includes(cleanWord)) {
+          pronounCounts[cleanWord] = (pronounCounts[cleanWord] || 0) + 1;
+        }
+      });
+      
+      // 3. Tokenize and count prepositions
+      const prepositions = [
+        "about", "above", "across", "after", "against", "along", "amid", "among", 
+        "around", "at", "before", "behind", "below", "beneath", "beside", "between", 
+        "beyond", "by", "concerning", "considering", "despite", "down", "during", 
+        "except", "for", "from", "in", "inside", "into", "like", "near", "of", "off", 
+        "on", "onto", "out", "outside", "over", "past", "regarding", "round", "since", 
+        "through", "throughout", "to", "toward", "towards", "under", "underneath", 
+        "until", "unto", "up", "upon", "with", "within", "without"
+      ];
+      
+      const prepositionCounts = {};
+      words.forEach(word => {
+        const cleanWord = word.toLowerCase().replace(/[^\w]|_/g, "");
+        if (prepositions.includes(cleanWord)) {
+          prepositionCounts[cleanWord] = (prepositionCounts[cleanWord] || 0) + 1;
+        }
+      });
+      
+      // 4. Tokenize and count indefinite articles
+      const indefiniteArticles = ["a", "an"];
+      
+      const articleCounts = {};
+      words.forEach(word => {
+        const cleanWord = word.toLowerCase().replace(/[^\w]|_/g, "");
+        if (indefiniteArticles.includes(cleanWord)) {
+          articleCounts[cleanWord] = (articleCounts[cleanWord] || 0) + 1;
+        }
+      });
+      
       // Generate HTML for stats
       textStats.innerHTML = `
-        <div class="stats-grid">
-          <div class="stat-item">
-            <h3>Word Count</h3>
-            <p>${wordCount}</p>
+        <div class="stats-section">
+          <h2>Basic Text Statistics</h2>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <h3>Word Count</h3>
+              <p>${wordCount}</p>
+            </div>
+            <div class="stat-item">
+              <h3>Character Count</h3>
+              <p>${charCount} (${charCountNoSpaces} without spaces)</p>
+            </div>
+            <div class="stat-item">
+              <h3>Sentence Count</h3>
+              <p>${sentenceCount}</p>
+            </div>
+            <div class="stat-item">
+              <h3>Paragraph Count</h3>
+              <p>${paragraphCount}</p>
+            </div>
+            <div class="stat-item">
+              <h3>Average Sentence Length</h3>
+              <p>${avgWordsPerSentence} words</p>
+            </div>
+            <div class="stat-item">
+              <h3>Estimated Reading Time</h3>
+              <p>${readingTimeMinutes} minute${readingTimeMinutes !== 1 ? 's' : ''}</p>
+            </div>
+            <div class="stat-item">
+              <h3>Longest Word</h3>
+              <p>${longestWord} (${longestWord.length} characters)</p>
+            </div>
+            <div class="stat-item">
+              <h3>Shortest Word</h3>
+              <p>${shortestWord} (${shortestWord.length} characters)</p>
+            </div>
+            <div class="stat-item">
+              <h3>Most Common Words</h3>
+              <ul>
+                ${commonWords.map(([word, count]) => `<li>${word}: ${count} time${count !== 1 ? 's' : ''}</li>`).join('')}
+              </ul>
+            </div>
           </div>
-          <div class="stat-item">
-            <h3>Character Count</h3>
-            <p>${charCount} (${charCountNoSpaces} without spaces)</p>
+        </div>
+
+        <div class="stats-section">
+          <h2>Character Analysis</h2>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <h3>Letters</h3>
+              <p>${letterCount}</p>
+            </div>
+            <div class="stat-item">
+              <h3>Spaces</h3>
+              <p>${spaceCount}</p>
+            </div>
+            <div class="stat-item">
+              <h3>Newlines</h3>
+              <p>${newlineCount}</p>
+            </div>
+            <div class="stat-item">
+              <h3>Special Symbols</h3>
+              <p>${specialSymbolCount}</p>
+            </div>
           </div>
-          <div class="stat-item">
-            <h3>Sentence Count</h3>
-            <p>${sentenceCount}</p>
-          </div>
-          <div class="stat-item">
-            <h3>Paragraph Count</h3>
-            <p>${paragraphCount}</p>
-          </div>
-          <div class="stat-item">
-            <h3>Average Sentence Length</h3>
-            <p>${avgWordsPerSentence} words</p>
-          </div>
-          <div class="stat-item">
-            <h3>Estimated Reading Time</h3>
-            <p>${readingTimeMinutes} minute${readingTimeMinutes !== 1 ? 's' : ''}</p>
-          </div>
-          <div class="stat-item">
-            <h3>Longest Word</h3>
-            <p>${longestWord} (${longestWord.length} characters)</p>
-          </div>
-          <div class="stat-item">
-            <h3>Shortest Word</h3>
-            <p>${shortestWord} (${shortestWord.length} characters)</p>
-          </div>
-          <div class="stat-item">
-            <h3>Most Common Words</h3>
-            <ul>
-              ${commonWords.map(([word, count]) => `<li>${word}: ${count} time${count !== 1 ? 's' : ''}</li>`).join('')}
-            </ul>
-          </div>
+        </div>
+
+        <div class="stats-section">
+          <h2>Pronoun Analysis</h2>
+          <table class="analysis-table">
+            <thead>
+              <tr>
+                <th>Pronoun</th>
+                <th>Count</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${Object.entries(pronounCounts).length > 0 ? 
+                Object.entries(pronounCounts)
+                  .sort((a, b) => b[1] - a[1])
+                  .map(([pronoun, count]) => `
+                    <tr>
+                      <td>${pronoun}</td>
+                      <td>${count}</td>
+                    </tr>
+                  `).join('') : 
+                `<tr><td colspan="2">No pronouns found</td></tr>`
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <div class="stats-section">
+          <h2>Preposition Analysis</h2>
+          <table class="analysis-table">
+            <thead>
+              <tr>
+                <th>Preposition</th>
+                <th>Count</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${Object.entries(prepositionCounts).length > 0 ? 
+                Object.entries(prepositionCounts)
+                  .sort((a, b) => b[1] - a[1])
+                  .map(([preposition, count]) => `
+                    <tr>
+                      <td>${preposition}</td>
+                      <td>${count}</td>
+                    </tr>
+                  `).join('') : 
+                `<tr><td colspan="2">No prepositions found</td></tr>`
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <div class="stats-section">
+          <h2>Indefinite Article Analysis</h2>
+          <table class="analysis-table">
+            <thead>
+              <tr>
+                <th>Article</th>
+                <th>Count</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${Object.entries(articleCounts).length > 0 ? 
+                Object.entries(articleCounts)
+                  .sort((a, b) => b[1] - a[1])
+                  .map(([article, count]) => `
+                    <tr>
+                      <td>${article}</td>
+                      <td>${count}</td>
+                    </tr>
+                  `).join('') : 
+                `<tr><td colspan="2">No indefinite articles found</td></tr>`
+              }
+            </tbody>
+          </table>
         </div>
       `;
     }
