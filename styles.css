@@ -108,53 +108,38 @@
     width: 100%;
   }
   
-  /* Theme Toggle Buttons */
-  .theme-toggles {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  button#theme-toggle,
-  button#alternate-theme-toggle {
+  /* Theme Toggle Button */
+  button#theme-toggle {
     background: none;
     border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 5px;
+    padding: 8px;
     border-radius: 50%;
     transition: background-color 0.3s ease;
   }
   
-  button#theme-toggle:hover,
-  button#alternate-theme-toggle:hover {
+  button#theme-toggle:hover {
     background-color: rgba(255, 255, 255, 0.1);
   }
   
-  button#theme-toggle .theme-icon,
-  button#alternate-theme-toggle .theme-icon {
-    width: 24px;
-    height: 24px;
+  button#theme-toggle .theme-icon {
+    width: 30px;
+    height: 30px;
     transition: opacity 0.3s ease;
   }
   
-  #sun-icon, #alt-sun-icon {
+  #sun-icon {
     display: none;
   }
   
-  .dark-theme #sun-icon, 
-  body.dark-mode #sun-icon,
-  .dark-theme #alt-sun-icon, 
-  body.dark-mode #alt-sun-icon {
+  body.dark-mode #sun-icon {
     display: block;
   }
   
-  .dark-theme #moon-icon, 
-  body.dark-mode #moon-icon,
-  .dark-theme #alt-moon-icon, 
-  body.dark-mode #alt-moon-icon {
+  body.dark-mode #moon-icon {
     display: none;
   }
   
@@ -194,12 +179,13 @@
     position: relative;
     display: inline-block;
     color: var(--primary-color);
+    text-align: left;
   }
   
   section h2::after {
     content: '';
     position: absolute;
-    width: 50%;
+    width: 100%;
     height: 3px;
     bottom: -10px;
     left: 0;
@@ -506,16 +492,6 @@
     display: inline-block;
   }
   
-  .subsection-title::after {
-    content: '';
-    position: absolute;
-    width: 70%;
-    height: 2px;
-    bottom: -8px;
-    left: 0;
-    background-color: var(--primary-color);
-  }
-  
   /* Projects */
   .project-item {
     background-color: var(--section-bg);
@@ -581,16 +557,6 @@
     display: inline-block;
   }
   
-  .skills-section h3::after {
-    content: '';
-    position: absolute;
-    width: 70%;
-    height: 2px;
-    bottom: -8px;
-    left: 0;
-    background-color: var(--primary-color);
-  }
-  
   .skills-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -619,7 +585,7 @@
   
   /* CV Section */
   #cv {
-    text-align: center;
+    text-align: left;
   }
   
   .btn {
@@ -746,6 +712,33 @@
     margin-bottom: 0.5rem;
     color: var(--primary-color);
     font-size: 1.1rem;
+  }
+  
+  /* Text analysis tables */
+  .analysis-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .analysis-table th, .analysis-table td {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .analysis-table th {
+    color: var(--primary-color);
+    font-weight: bold;
+  }
+  
+  .stats-section {
+    margin-bottom: 30px;
+  }
+  
+  .stats-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
   }
   
   /* Footer */
