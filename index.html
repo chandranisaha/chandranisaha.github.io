@@ -17,15 +17,19 @@
         <a href="#about">About</a>
         <a href="#gallery">Gallery</a>
         <a href="#education">Education</a>
-        <a href="#achievements">Achievements</a>
-        <a href="#projects">Projects</a>
+        <a href="#projects-achievements">Projects & Achievements</a>
         <a href="#skills">Skills</a>
-        <a href="#extras">Other Info</a>
         <a href="#text-analyzer">Text Tool</a>
-        <button id="theme-toggle">
-          <img src="assets/sun-icon.png" alt="Sun Icon" id="sun-icon" class="theme-icon" />
-          <img src="assets/moon-icon.png" alt="Moon Icon" id="moon-icon" class="theme-icon" />
-        </button>
+        <div class="theme-toggles">
+          <button id="theme-toggle" aria-label="Toggle theme">
+            <img src="assets/sun-icon.png" alt="Sun Icon" id="sun-icon" class="theme-icon" />
+            <img src="assets/moon-icon.png" alt="Moon Icon" id="moon-icon" class="theme-icon" />
+          </button>
+          <button id="alternate-theme-toggle" aria-label="Toggle theme alternate">
+            <img src="assets/sun-icon.png" alt="Sun Icon" id="alt-sun-icon" class="theme-icon" />
+            <img src="assets/moon-icon.png" alt="Moon Icon" id="alt-moon-icon" class="theme-icon" />
+          </button>
+        </div>
       </div>
     </nav>
   </header>
@@ -83,29 +87,29 @@
         <div class="gallery-item">
           <img src="assets/img2.jpeg" alt="Birthplace Photo 1" loading="lazy">
           <div class="overlay">
-            <div class="overlay-content">Birthplace 1</div>
+            <div class="overlay-content">Howrah Bridge</div>
           </div>
         </div>
         <div class="gallery-item">
-          <img src="assets/img3.jpeg" alt="Birthplace Photo 2" loading="lazy">
+          <img src="assets/img3.jpeg" alt="Eden Gardens Stadium" loading="lazy">
           <div class="overlay">
             <div class="overlay-content">Birthplace 2</div>
           </div>
         </div>
         <div class="gallery-item">
-          <img src="assets/img4.jpeg" alt="Birthplace Photo 3" loading="lazy">
+          <img src="assets/img4.jpeg" alt="Durga Puja Celebration" loading="lazy">
           <div class="overlay">
             <div class="overlay-content">Birthplace 3</div>
           </div>
         </div>
         <div class="gallery-item">
-          <img src="assets/img5.jpeg" alt="Birthplace Photo 4" loading="lazy">
+          <img src="assets/img5.jpeg" alt="Biswa Bangla" loading="lazy">
           <div class="overlay">
             <div class="overlay-content">Birthplace 4</div>
           </div>
         </div>
         <div class="gallery-item">
-          <img src="assets/img6.jpeg" alt="Birthplace Photo 5" loading="lazy">
+          <img src="assets/img6.jpeg" alt="Yellow Taxi" loading="lazy">
           <div class="overlay">
             <div class="overlay-content">Birthplace 5</div>
           </div>
@@ -121,69 +125,123 @@
 
     <section id="education" class="track" data-type="text">
       <h2>Education</h2>
-      <ul>
-        <li>
-          <div class="education-item">
-            <h3>International Institute of Information Technology, Hyderabad (IIITH)</h3>
-            <p>B.Tech and MS Dual Degree in Computational Natural Sciences (2024 – 2029, Expected)</p>
+      <div class="education-timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>B.Tech and MS Dual Degree in Computational Natural Sciences</h3>
+            <h4>International Institute of Information Technology, Hyderabad (IIITH)</h4>
+            <p class="timeline-date">2024 – 2029 (Expected)</p>
             <p>CGPA: 7.3 (after 1st Semester), Second semester CGPA awaited</p>
             <p>Courses: Computer Programming, Data Structures and Algorithms, Computing in Sciences 1 and 2, Discrete Structures, Real Analysis, Linear Algebra, Classical Mechanics, Electrodynamics</p>
           </div>
-        </li>
-        <li>
-          <div class="education-item">
-            <h3>G.D. Birla Centre for Education, Kolkata, West Bengal</h3>
-            <p>ISC (Class 12): 99%</p>
-            <p>ICSE (Class 10): 98%</p>
-          </div>
-        </li>
-      </ul>
-    </section>
-
-    <section id="achievements" class="track" data-type="text">
-      <h2>Achievements</h2>
-      <div class="achievements-container">
-        <div class="achievement-item">
-          <h3>JBNSTS Scholar – 2022</h3>
-          <p>Awarded by the Government of West Bengal for outstanding scientific aptitude and potential.</p>
         </div>
-        <div class="achievement-item">
-          <h3>INSPIRE SHE Scholarship – 2023</h3>
-          <p>Awarded to top-performing female students in science by the Department of Science and Technology, Government of India.</p>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>ISC (Class 12)</h3>
+            <h4>G.D. Birla Centre for Education, Kolkata, West Bengal</h4>
+            <p class="timeline-date">2021 – 2023</p>
+            <p>Score: 99%</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>ICSE (Class 10)</h3>
+            <h4>G.D. Birla Centre for Education, Kolkata, West Bengal</h4>
+            <p class="timeline-date">2019 – 2021</p>
+            <p>Score: 98%</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <section id="projects" class="track" data-type="text">
-      <h2>Projects</h2>
-      <div class="project-item">
-        <h3>Rexwo – AI-powered HealthTech Startup (2025)</h3>
-        <p>Building an AI-powered healthtech app as part of the StartUp Aid competition by E-Cell IIITH. Focused on predictive analysis and digital health management using AI.</p>
+    <section id="projects-achievements" class="track" data-type="text">
+      <h2>Projects & Achievements</h2>
+      <div class="section-wrapper">
+        <div class="subsection">
+          <h3 class="subsection-title">Projects</h3>
+          <div class="project-item">
+            <h4>Rexwo – AI-powered HealthTech Startup (2025)</h4>
+            <p>Building an AI-powered healthtech app as part of the StartUp Aid competition by E-Cell IIITH. Focused on predictive analysis and digital health management using AI.</p>
+          </div>
+        </div>
+        
+        <div class="subsection">
+          <h3 class="subsection-title">Achievements</h3>
+          <div class="achievement-item">
+            <h4>JBNSTS Scholar – 2022</h4>
+            <p>Awarded by the Government of West Bengal for outstanding scientific aptitude and potential.</p>
+          </div>
+          <div class="achievement-item">
+            <h4>INSPIRE SHE Scholarship – 2023</h4>
+            <p>Awarded to top-performing female students in science by the Department of Science and Technology, Government of India.</p>
+          </div>
+        </div>
       </div>
     </section>
 
     <section id="skills" class="track" data-type="text">
-      <h2>Technical Skills</h2>
-      <div class="skills-container">
-        <div class="skill-category">
-          <h3>Languages</h3>
-          <p>C, Java, C++, Python, JavaScript</p>
+      <h2>Skills</h2>
+      
+      <div class="skills-section">
+        <h3>Technical Skills</h3>
+        <div class="skills-container">
+          <div class="skill-category">
+            <h4>Languages</h4>
+            <p>C, Java, C++, Python, JavaScript</p>
+          </div>
+          <div class="skill-category">
+            <h4>Web Technologies</h4>
+            <p>HTML, CSS</p>
+          </div>
+          <div class="skill-category">
+            <h4>Databases</h4>
+            <p>SQL, NoSQL (MongoDB basics)</p>
+          </div>
+          <div class="skill-category">
+            <h4>Tools</h4>
+            <p>Git, VS Code, Eclipse, Linux</p>
+          </div>
+          <div class="skill-category">
+            <h4>Core Concepts</h4>
+            <p>Object-Oriented Programming, Data Structures, Algorithms</p>
+          </div>
         </div>
-        <div class="skill-category">
-          <h3>Web Technologies</h3>
-          <p>HTML, CSS</p>
-        </div>
-        <div class="skill-category">
-          <h3>Databases</h3>
-          <p>SQL, NoSQL (MongoDB basics)</p>
-        </div>
-        <div class="skill-category">
-          <h3>Tools</h3>
-          <p>Git, VS Code, Eclipse, Linux</p>
-        </div>
-        <div class="skill-category">
-          <h3>Core Concepts</h3>
-          <p>Object-Oriented Programming, Data Structures, Algorithms</p>
+      </div>
+      
+      <div class="skills-section">
+        <h3>Other Skills</h3>
+        <div class="extras-grid">
+          <div class="extras-item">
+            <h4>Soft Skills</h4>
+            <p>Leadership, Communication, Critical Thinking, Teamwork, Initiative</p>
+          </div>
+          <div class="extras-item">
+            <h4>Creative Interests</h4>
+            <p>Music, Painting, Dancing</p>
+          </div>
+          <div class="extras-item">
+            <h4>Leadership & Extracurricular Activities</h4>
+            <ul>
+              <li>Public Relations Team Member, E-Cell, IIIT Hyderabad</li>
+              <li>Marketing Team Member, Ping! IIIT Hyderabad</li>
+              <li>Social Media Team, ArtSociety & The Dance Crew, IIIT Hyderabad</li>
+              <li>Performance Team, Cyclorama IIITH</li>
+              <li>Social Media Team, Felicity 2024, IIIT Hyderabad</li>
+            </ul>
+          </div>
+          <div class="extras-item">
+            <h4>Volunteer Experience</h4>
+            <ul>
+              <li>Volunteer, ISKCON Kolkata – organized community outreach, food distribution, and events.</li>
+            </ul>
+          </div>
+          <div class="extras-item">
+            <h4>Languages Known</h4>
+            <p>English (Fluent), Bengali (Native), Hindi (Proficient)</p>
+          </div>
         </div>
       </div>
     </section>
@@ -191,40 +249,6 @@
     <section id="cv">
       <h2>Download My CV</h2>
       <a href="cv.pdf" class="btn track" data-type="button" download>Download CV</a>
-    </section>
-
-    <section id="extras" class="track" data-type="text">
-      <h2>Other Information</h2>
-      <div class="extras-grid">
-        <div class="extras-item">
-          <h3>Soft Skills</h3>
-          <p>Leadership, Communication, Critical Thinking, Teamwork, Initiative</p>
-        </div>
-        <div class="extras-item">
-          <h3>Creative Interests</h3>
-          <p>Music, Painting, Dancing</p>
-        </div>
-        <div class="extras-item">
-          <h3>Leadership & Extracurricular Activities</h3>
-          <ul>
-            <li>Public Relations Team Member, E-Cell, IIIT Hyderabad</li>
-            <li>Marketing Team Member, Ping! IIIT Hyderabad</li>
-            <li>Social Media Team, ArtSociety & The Dance Crew, IIIT Hyderabad</li>
-            <li>Performance Team, Cyclorama IIITH</li>
-            <li>Social Media Team, Felicity 2024, IIIT Hyderabad</li>
-          </ul>
-        </div>
-        <div class="extras-item">
-          <h3>Volunteer Experience</h3>
-          <ul>
-            <li>Volunteer, ISKCON Kolkata – organized community outreach, food distribution, and events.</li>
-          </ul>
-        </div>
-        <div class="extras-item">
-          <h3>Languages Known</h3>
-          <p>English (Fluent), Bengali (Native), Hindi (Proficient)</p>
-        </div>
-      </div>
     </section>
 
     <section id="text-analyzer" class="track" data-type="text">
