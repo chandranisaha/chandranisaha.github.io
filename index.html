@@ -6,20 +6,69 @@
   <title>CS | Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="assets/sun-moon-icon.png" />
+  <link rel="icon" href="assets/sun-icon.png" />
 </head>
 <body>
+  <div id="sidebar">
+    <div class="sidebar-card" id="now-card" style="margin-top: 60px;">
+      <h3>Now</h3>
+      <div class="sidebar-card-content">
+        <ul>
+          <li><strong>Building:</strong> Tribbi – AI mock interview assistant</li>
+          <li><strong>Learning:</strong> Fine-tuning LLMs</li>
+          <li><strong>Location:</strong> IIIT Hyderabad</li>
+          <li><strong>Available for:</strong> Remote internships</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sidebar-card" id="ideas-card">
+      <h3>Ideas I’m Exploring</h3>
+      <div class="sidebar-card-content">
+        <div class="sidebar-card idea-card">
+          <h4>Multimodal Research Assistant</h4>
+          <div class="sidebar-card-content">
+            <p>Image + text question answering across scientific papers (especially physics or cosmology) using vision-language models like BLIP or Donut.</p>
+          </div>
+        </div>
+        <div class="sidebar-card idea-card">
+          <h4>Distributed Vector Search Engine</h4>
+          <div class="sidebar-card-content">
+            <p>Scalable vector DB written in C++/Rust, optimized for ANN search, built with sharded indexes and Python bindings.</p>
+          </div>
+        </div>
+        <div class="sidebar-card idea-card">
+          <h4>Code Feedback Aggregator</h4>
+          <div class="sidebar-card-content">
+            <p>Code review assistant combining LLM and human feedback, grouped using NLP clustering for issue detection.</p>
+          </div>
+        </div>
+        <div class="sidebar-card idea-card">
+          <h4>Real-Time Code Collaboration Kernel</h4>
+          <div class="sidebar-card-content">
+            <p>Jupyter-style multi-user code editor with live sync via CRDTs, execution isolation via Docker, and real-time test overlays.</p>
+          </div>
+        </div>
+        <div class="sidebar-card idea-card">
+          <h4>AI Portfolio Optimizer</h4>
+          <div class="sidebar-card-content">
+            <p>CLI or web app that parses your resume, GitHub, LinkedIn and gives project/keyword suggestions using scraped job market data and classification models.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="close-btn" aria-label="Close sidebar">&times;</button>
+  </div>
   <header id="header">
     <nav>
-      <h1>CS</h1>
+      <h1 id="logo">CS</h1>
       <div class="nav-links">
         <a href="#hero">Home</a>
         <a href="#about">About</a>
-        <a href="#gallery">Gallery</a>
         <a href="#education">Education</a>
-        <a href="#projects-achievements">Projects & Achievements</a>
+        <a href="#projects">Projects</a>
+        <a href="#work">Work and Experiences</a>
+        <a href="#achievements">Achievements</a>
         <a href="#skills">Skills</a>
-        <a href="#text-analyzer">Text Tool</a>
         <div class="theme-toggles">
           <button id="theme-toggle" aria-label="Toggle theme">
             <img src="assets/sun-icon.png" alt="Sun Icon" id="sun-icon" class="theme-icon" />
@@ -77,49 +126,6 @@
       </div>
     </section>
 
-    <section id="gallery" class="track" data-type="image">
-      <h2>Kolkata Gallery</h2>
-      <h3>Some views from my birthplace, the City of Joy, Kolkata</h3>
-      <div class="carousel">
-        <div class="gallery-item">
-          <img src="assets/img2.jpeg" alt="Howrah Bridge" loading="lazy">
-          <div class="overlay">
-            <div class="overlay-content">Howrah Bridge</div>
-          </div>
-        </div>
-        <div class="gallery-item">
-          <img src="assets/img3.jpeg" alt="Eden Gardens Stadium" loading="lazy">
-          <div class="overlay">
-            <div class="overlay-content">Eden Gardens Stadium</div>
-          </div>
-        </div>
-        <div class="gallery-item">
-          <img src="assets/img4.jpeg" alt="Durga Puja Celebration" loading="lazy">
-          <div class="overlay">
-            <div class="overlay-content">Durga Puja Celebration</div>
-          </div>
-        </div>
-        <div class="gallery-item">
-          <img src="assets/img5.jpeg" alt="Biswa Bangla" loading="lazy">
-          <div class="overlay">
-            <div class="overlay-content">Biswa Bangla</div>
-          </div>
-        </div>
-        <div class="gallery-item">
-          <img src="assets/img6.jpeg" alt="Red Vintage Houses" loading="lazy">
-          <div class="overlay">
-            <div class="overlay-content">Red Vintage Houses</div>
-          </div>
-        </div>
-        <div class="gallery-item">
-          <img src="assets/img7.jpeg" alt="Birthplace Photo 6" loading="lazy">
-          <div class="overlay">
-            <div class="overlay-content">Victoria Memorial</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section id="education" class="track" data-type="text">
       <h2>Education</h2>
       <div class="education-timeline">
@@ -154,34 +160,69 @@
       </div>
     </section>
 
-    <section id="projects-achievements" class="track" data-type="text">
-      <h2>Projects & Achievements</h2>
+    <section id="projects" class="track" data-type="text">
+      <h2>Projects</h2>
       <div class="section-wrapper">
-        <div class="subsection">
-          <h3 class="subsection-title">Projects</h3>
-          <div class="project-item">
-            <h4>Rexwo – AI-powered HealthTech Startup (2025)</h4>
-            <p>Building an AI-powered healthtech app as part of the StartUp Aid competition by E-Cell IIITH. Focused on predictive analysis and digital health management using AI.</p>
-          </div>
+        <div class="project-item">
+          <h4>Tribbi AI – LLM-Powered Mock Interview Assistant</h4>
+          <p><strong>Python, Hugging Face, Mistral 7B, LangChain, FastAPI</strong></p>
+          <p>Built an AI mock interview platform using a fine-tuned Mistral 7B model. Engineered adaptive multi-turn prompts and interviewer personas that respond to resumes and simulate company-specific interviews.</p>
         </div>
-        
-        <div class="subsection">
-          <h3 class="subsection-title">Achievements</h3>
-          <div class="achievement-item">
-            <h4>JBNSTS Scholar – 2022</h4>
-            <p>Awarded by the Government of West Bengal for outstanding scientific aptitude and potential.</p>
-          </div>
-          <div class="achievement-item">
-            <h4>INSPIRE SHE Scholarship – 2023</h4>
-            <p>Awarded to top-performing female students in science by the Department of Science and Technology, Government of India.</p>
-          </div>
+        <div class="project-item">
+          <h4>Rexwo – Health Data Aggregator</h4>
+          <p><strong>React, Firebase, Netlify</strong> | <a href="https://rexwoapp.netlify.app" target="_blank">Live</a></p>
+          <p>Co-founded a healthtech platform to help hospitals analyze patient data. Designed UI flows and frontend functionality. Built during IIIT-H’s StartUp Aid competition.</p>
+        </div>
+        <div class="project-item">
+          <h4>PDF QA Assistant</h4>
+          <p><strong>React.js, FastAPI, Gemini Pro, Pinecone</strong></p>
+          <p>Built a PDF chatbot using Gemini Pro and vector search with Pinecone. Supports multi-PDF uploads and semantic question-answering. Includes a chat UI and persistent history.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="work" class="track" data-type="text">
+      <h2>Work and Experiences</h2>
+      <div class="section-wrapper">
+        <div class="project-item">
+          <h4>Typeflo – SEO & Content Strategy Intern</h4>
+          <p>Automated the blog publishing pipeline with reusable metadata templates and keyword clustering. Improved SEO effectiveness and reduced manual overhead across the content team.</p>
+        </div>
+        <div class="project-item">
+          <h4>Leadership & Extracurricular Activities</h4>
+          <ul>
+            <li>Public Relations Team Member, E-Cell, IIIT Hyderabad</li>
+            <li>Marketing Team Member, Ping! IIIT Hyderabad</li>
+            <li>Social Media Team, ArtSociety & The Dance Crew, IIIT Hyderabad</li>
+            <li>Performance Team, Cyclorama IIITH</li>
+            <li>Social Media Team, Felicity 2024, IIIT Hyderabad</li>
+          </ul>
+        </div>
+        <div class="project-item">
+          <h4>Volunteer Experience</h4>
+          <ul>
+            <li>Volunteer, ISKCON Kolkata – organized community outreach, food distribution, and events.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="achievements" class="track" data-type="text">
+      <h2>Achievements</h2>
+      <div class="section-wrapper">
+        <div class="achievement-item">
+          <h4>JBNSTS Scholar (2022)</h4>
+          <p>Awarded by Govt. of West Bengal for scientific research potential</p>
+        </div>
+        <div class="achievement-item">
+          <h4>INSPIRE SHE Scholar (2023)</h4>
+          <p>Govt. of India scholarship for top 1% female science students</p>
         </div>
       </div>
     </section>
 
     <section id="skills" class="track" data-type="text">
       <h2>Skills</h2>
-      
       <div class="skills-section">
         <h3>Technical Skills</h3>
         <div class="skills-container">
@@ -207,7 +248,6 @@
           </div>
         </div>
       </div>
-      
       <div class="skills-section">
         <h3>Other Skills</h3>
         <div class="extras-grid">
@@ -220,22 +260,6 @@
             <p>Music, Painting, Dancing</p>
           </div>
           <div class="extras-item">
-            <h4>Leadership & Extracurricular Activities</h4>
-            <ul>
-              <li>Public Relations Team Member, E-Cell, IIIT Hyderabad</li>
-              <li>Marketing Team Member, Ping! IIIT Hyderabad</li>
-              <li>Social Media Team, ArtSociety & The Dance Crew, IIIT Hyderabad</li>
-              <li>Performance Team, Cyclorama IIITH</li>
-              <li>Social Media Team, Felicity 2024, IIIT Hyderabad</li>
-            </ul>
-          </div>
-          <div class="extras-item">
-            <h4>Volunteer Experience</h4>
-            <ul>
-              <li>Volunteer, ISKCON Kolkata – organized community outreach, food distribution, and events.</li>
-            </ul>
-          </div>
-          <div class="extras-item">
             <h4>Languages Known</h4>
             <p>English (Fluent), Bengali (Native), Hindi (Proficient)</p>
           </div>
@@ -246,15 +270,6 @@
     <section id="cv">
       <h2>Download My CV</h2>
       <a href="cv.pdf" class="btn track" data-type="button" download>Download CV</a>
-    </section>
-
-    <section id="text-analyzer" class="track" data-type="text">
-      <h2>Text Analysis Tool</h2>
-      <div class="analyzer-container">
-        <textarea id="text-input" placeholder="Paste your text here (10,000+ words supported)..." class="track" data-type="text"></textarea>
-        <button id="analyze-btn" class="analyze-btn">Analyze Text</button>
-        <div id="text-stats" class="text-stats"></div>
-      </div>
     </section>
   </main>
 
