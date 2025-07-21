@@ -6,61 +6,12 @@
   <title>CS | Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="assets/sun-icon.png" />
+  <link rel="icon" href="assets/sun-moon-icon.png" />
 </head>
 <body>
-  <div id="sidebar">
-    <div class="sidebar-card" id="now-card" style="margin-top: 60px;">
-      <h3>Now</h3>
-      <div class="sidebar-card-content">
-        <ul>
-          <li><strong>Building:</strong> Tribbi – AI mock interview assistant</li>
-          <li><strong>Learning:</strong> Fine-tuning LLMs</li>
-          <li><strong>Location:</strong> IIIT Hyderabad</li>
-          <li><strong>Available for:</strong> Remote internships</li>
-        </ul>
-      </div>
-    </div>
-    <div class="sidebar-card" id="ideas-card">
-      <h3>Ideas I’m Exploring</h3>
-      <div class="sidebar-card-content">
-        <div class="sidebar-card idea-card">
-          <h4>Multimodal Research Assistant</h4>
-          <div class="sidebar-card-content">
-            <p>Image + text question answering across scientific papers (especially physics or cosmology) using vision-language models like BLIP or Donut.</p>
-          </div>
-        </div>
-        <div class="sidebar-card idea-card">
-          <h4>Distributed Vector Search Engine</h4>
-          <div class="sidebar-card-content">
-            <p>Scalable vector DB written in C++/Rust, optimized for ANN search, built with sharded indexes and Python bindings.</p>
-          </div>
-        </div>
-        <div class="sidebar-card idea-card">
-          <h4>Code Feedback Aggregator</h4>
-          <div class="sidebar-card-content">
-            <p>Code review assistant combining LLM and human feedback, grouped using NLP clustering for issue detection.</p>
-          </div>
-        </div>
-        <div class="sidebar-card idea-card">
-          <h4>Real-Time Code Collaboration Kernel</h4>
-          <div class="sidebar-card-content">
-            <p>Jupyter-style multi-user code editor with live sync via CRDTs, execution isolation via Docker, and real-time test overlays.</p>
-          </div>
-        </div>
-        <div class="sidebar-card idea-card">
-          <h4>AI Portfolio Optimizer</h4>
-          <div class="sidebar-card-content">
-            <p>CLI or web app that parses your resume, GitHub, LinkedIn and gives project/keyword suggestions using scraped job market data and classification models.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <button class="close-btn" aria-label="Close sidebar">&times;</button>
-  </div>
   <header id="header">
     <nav>
-      <h1 id="logo">CS</h1>
+      <h1>CS</h1>
       <div class="nav-links">
         <a href="#hero">Home</a>
         <a href="#about">About</a>
@@ -78,6 +29,7 @@
       </div>
     </nav>
   </header>
+  <div id="progress-bar"></div>
 
   <main>
     <section id="hero" class="hero-section">
@@ -269,7 +221,7 @@
 
     <section id="cv">
       <h2>Download My CV</h2>
-      <a href="cv.pdf" class="btn track" data-type="button" download>Download CV</a>
+      <a href="resume1.pdf" class="btn track" data-type="button" download>Download CV</a>
     </section>
   </main>
 

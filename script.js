@@ -92,6 +92,162 @@ document.addEventListener("DOMContentLoaded", function() {
       lastScrollTop = scrollTop;
     });
   
+    // Enhanced Text analyzer functionality
+    const textInput = document.getElementById("text-input");
+    const textStats = document.getElementById("text-stats");
+    const analyzeBtn = document.getElementById("analyze-btn");
+  
+    analyzeBtn.addEventListener("click", function() {
+      analyzeText();
+    });
+  
+    function analyzeText() {
+      const text = textInput.value;
+      
+      if (!text) {
+        textStats.innerHTML = "<p>Please enter some text to analyze.</p>";
+        return;
+      }
+      
+      const trimmedText = text.trim();
+      const words = trimmedText.split(/\s+/).filter(word => word.length > 0);
+      const wordCount = words.length;
+      const charCount = text.length;
+      const charCountNoSpaces = text.replace(/\s+/g, "").length;
+      const sentences = trimmedText.split(/[.!?]+/).filter(sentence => sentence.trim().length > 0);
+      const sentenceCount = sentences.length;
+      const paragraphs = trimmedText.split(/\n\s*\n/).filter(para => para.trim().length > 0);
+      const paragraphCount = paragraphs.length;
+      const readingTimeMinutes = Math.ceil(wordCount / 200);
+  
+      let longestWord = "";
+      let shortestWord = "";
+  
+      words.forEach(word => {
+        const cleanWord = word.replace(/[^\w]/g, "");
+        if (cleanWord.length > 0) {
+          if (!shortestWord || cleanWord.length < shortestWord.length) {
+            shortestWord = cleanWord;
+          }
+          if (cleanWord.length > longestWord.length) {
+            longestWord = cleanWord;
+          }
+        }
+      });
+  
+      const wordFrequency = {};
+      words.forEach(word => {
+        const cleanWord = word.toLowerCase().replace(/[^\w]/g, "");
+        if (cleanWord.length > 0) {
+          wordFrequency[cleanWord] = (wordFrequency[cleanWord] || 0) + 1;
+        }
+      });
+  
+      const commonWords = Object.entries(wordFrequency)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5);
+  
+      const avgWordsPerSentence = sentenceCount > 0 ? (wordCount / sentenceCount).toFixed(1) : 0;
+  
+      const letterCount = (text.match(/[a-zA-Z]/g) || []).length;
+      const spaceCount = (text.match(/\s/g) || []).length;
+      const newlineCount = (text.match(/\n/g) || []).length;
+      const specialSymbolCount = (text.match(/[^\w\s]/g) || []).length;
+  
+      const pronouns = [
+        "i", "me", "my", "mine", "myself", "you", "your", "yours", "yourself", "yourselves",
+        "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself",
+        "we", "us", "our", "ours", "ourselves", "they", "them", "their", "theirs", "themselves",
+        "this", "that", "these", "those", "who", "whom", "whose", "which", "what"
+      ];
+      const pronounCounts = {};
+      words.forEach(word => {
+        const cleanWord = word.toLowerCase().replace(/[^\w]|_/g, "");
+        if (pronouns.includes(cleanWord)) {
+          pronounCounts[cleanWord] = (pronounCounts[cleanWord] || 0) + 1;
+        }
+      });
+  
+      const prepositions = [
+        "about", "above", "across", "after", "against", "along", "amid", "among", "around", "at",
+        "before", "behind", "below", "beneath", "beside", "between", "beyond", "by", "concerning",
+        "considering", "despite", "down", "during", "except", "for", "from", "in", "inside", "into",
+        "like", "near", "of", "off", "on", "onto", "out", "outside", "over", "past", "regarding",
+        "round", "since", "through", "throughout", "to", "toward", "towards", "under", "underneath",
+        "until", "unto", "up", "upon", "with", "within", "without"
+      ];
+      const prepositionCounts = {};
+      words.forEach(word => {
+        const cleanWord = word.toLowerCase().replace(/[^\w]|_/g, "");
+        if (prepositions.includes(cleanWord)) {
+          prepositionCounts[cleanWord] = (prepositionCounts[cleanWord] || 0) + 1;
+        }
+      });
+  
+      const indefiniteArticles = ["a", "an"];
+      const articleCounts = {};
+      words.forEach(word => {
+        const cleanWord = word.toLowerCase().replace(/[^\w]|_/g, "");
+        if (indefiniteArticles.includes(cleanWord)) {
+          articleCounts[cleanWord] = (articleCounts[cleanWord] || 0) + 1;
+        }
+      });
+  
+      textStats.innerHTML = `
+        <div class="stats-section">
+          <h2>Basic Text Statistics</h2>
+          <div class="stats-grid">
+            <div class="stat-item"><h3>Word Count</h3><p>${wordCount}</p></div>
+            <div class="stat-item"><h3>Character Count</h3><p>${charCount} (${charCountNoSpaces} without spaces)</p></div>
+            <div class="stat-item"><h3>Sentence Count</h3><p>${sentenceCount}</p></div>
+            <div class="stat-item"><h3>Paragraph Count</h3><p>${paragraphCount}</p></div>
+            <div class="stat-item"><h3>Average Sentence Length</h3><p>${avgWordsPerSentence} words</p></div>
+            <div class="stat-item"><h3>Estimated Reading Time</h3><p>${readingTimeMinutes} minute${readingTimeMinutes !== 1 ? 's' : ''}</p></div>
+            <div class="stat-item"><h3>Longest Word</h3><p>${longestWord} (${longestWord.length} characters)</p></div>
+            <div class="stat-item"><h3>Shortest Word</h3><p>${shortestWord} (${shortestWord.length} characters)</p></div>
+            <div class="stat-item"><h3>Most Common Words</h3><ul>${commonWords.map(([word, count]) => `<li>${word}: ${count} time${count !== 1 ? 's' : ''}</li>`).join('')}</ul></div>
+          </div>
+        </div>
+  
+        <div class="stats-section">
+          <h2>Character Analysis</h2>
+          <div class="stats-grid">
+            <div class="stat-item"><h3>Letters</h3><p>${letterCount}</p></div>
+            <div class="stat-item"><h3>Spaces</h3><p>${spaceCount}</p></div>
+            <div class="stat-item"><h3>Newlines</h3><p>${newlineCount}</p></div>
+            <div class="stat-item"><h3>Special Symbols</h3><p>${specialSymbolCount}</p></div>
+          </div>
+        </div>
+  
+        <div class="stats-section">
+          <h2>Pronoun Analysis</h2>
+          <table class="analysis-table"><thead><tr><th>Pronoun</th><th>Count</th></tr></thead><tbody>
+          ${Object.entries(pronounCounts).length > 0 ? 
+            Object.entries(pronounCounts).sort((a, b) => b[1] - a[1]).map(([p, c]) => `<tr><td>${p}</td><td>${c}</td></tr>`).join('') :
+            `<tr><td colspan="2">No pronouns found</td></tr>`}
+          </tbody></table>
+        </div>
+  
+        <div class="stats-section">
+          <h2>Preposition Analysis</h2>
+          <table class="analysis-table"><thead><tr><th>Preposition</th><th>Count</th></tr></thead><tbody>
+          ${Object.entries(prepositionCounts).length > 0 ? 
+            Object.entries(prepositionCounts).sort((a, b) => b[1] - a[1]).map(([p, c]) => `<tr><td>${p}</td><td>${c}</td></tr>`).join('') :
+            `<tr><td colspan="2">No prepositions found</td></tr>`}
+          </tbody></table>
+        </div>
+  
+        <div class="stats-section">
+          <h2>Indefinite Article Analysis</h2>
+          <table class="analysis-table"><thead><tr><th>Article</th><th>Count</th></tr></thead><tbody>
+          ${Object.entries(articleCounts).length > 0 ? 
+            Object.entries(articleCounts).sort((a, b) => b[1] - a[1]).map(([a, c]) => `<tr><td>${a}</td><td>${c}</td></tr>`).join('') :
+            `<tr><td colspan="2">No indefinite articles found</td></tr>`}
+          </tbody></table>
+        </div>
+      `;
+    }
+  
     // === Event Tracking (Clicks and Views Logging) ===
     function getElementType(element) {
       if (element.tagName === 'IMG') return 'image';
@@ -127,88 +283,14 @@ document.addEventListener("DOMContentLoaded", function() {
     document.querySelectorAll('section, img, input, textarea, select, button, a').forEach(element => {
       viewObserver.observe(element);
     });
-
-  // Sidebar toggle logic (moved inside DOMContentLoaded)
-  const sidebar = document.getElementById('sidebar');
-  const logo = document.getElementById('logo');
-  const closeBtn = document.querySelector('#sidebar .close-btn');
-
-  function openSidebar() {
-    sidebar.classList.add('open');
-    sidebar.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-    // Collapse both Now and Ideas cards
-    const nowCard = document.getElementById('now-card');
-    const ideasCard = document.getElementById('ideas-card');
-    if (nowCard) nowCard.classList.remove('expanded');
-    if (ideasCard) ideasCard.classList.remove('expanded');
-  }
-  function closeSidebar() {
-    sidebar.classList.remove('open');
-    sidebar.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-  }
-
-  if (logo) {
-    logo.addEventListener('click', function() {
-      console.log('Logo clicked');
-      if (sidebar.classList.contains('open')) {
-        closeSidebar();
-      } else {
-        openSidebar();
-        console.log('Sidebar opened');
-      }
-    });
-  }
-  if (closeBtn) {
-    closeBtn.addEventListener('click', closeSidebar);
-  }
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && sidebar.classList.contains('open')) {
-      closeSidebar();
-    }
-  });
   
-  // Sidebar expand/collapse logic for Now and Ideas cards
-  sidebar.addEventListener('click', function(e) {
-    const toggleBtn = e.target.closest('.sidebar-toggle');
-    if (toggleBtn) {
-      e.stopPropagation();
-      console.log('Sidebar arrow clicked');
-      const card = toggleBtn.closest('.sidebar-card');
-      if (card && (card.id === 'now-card' || card.id === 'ideas-card')) {
-        card.classList.toggle('expanded');
-      }
-    }
-  });
-
-  // Fallback: add direct click handler to all sidebar-toggle buttons
-  document.querySelectorAll('.sidebar-toggle').forEach(btn => {
-    btn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      const card = btn.closest('.sidebar-card');
-      if (card && (card.id === 'now-card' || card.id === 'ideas-card')) {
-        card.classList.toggle('expanded');
-      }
+    // Progress bar scroll logic
+    const progressBar = document.getElementById('progress-bar');
+    window.addEventListener('scroll', function() {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      progressBar.style.width = progress + '%';
     });
-  });
-
-  // Progress bar below navbar: always white
-  let progressBar = document.getElementById('scroll-progress-bar');
-  if (!progressBar) {
-    progressBar = document.createElement('div');
-    progressBar.id = 'scroll-progress-bar';
-    document.body.appendChild(progressBar);
-  }
-  function updateProgressBar() {
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-    progressBar.style.width = progress + '%';
-    progressBar.style.background = '#fff';
-  }
-  window.addEventListener('scroll', updateProgressBar);
-  window.addEventListener('DOMContentLoaded', updateProgressBar);
-  updateProgressBar();
   });
   

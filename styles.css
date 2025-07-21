@@ -196,13 +196,6 @@
   /* Hero Section */
   .hero-section {
     height: 100vh;
-    width: 100vw; /* Expand grid horizontally */
-    max-width: none;
-    position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -212,11 +205,18 @@
     background-color: transparent;
     box-shadow: none;
     border-left: none;
+    /* Add a very faint gray grid background */
     background-image:
       linear-gradient(to right, rgba(180,180,180,0.07) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(180,180,180,0.07) 1px, transparent 1px);
     background-size: 40px 40px;
-    overflow-x: hidden;
+    /* Expand grid to full viewport width */
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
   }
   
   .hero-section h1 {
@@ -758,244 +758,15 @@
     opacity: 1;
   }
 
-/* Sidebar styles - light/dark mode */
-#sidebar {
+#progress-bar {
   position: fixed;
-  top: 0;
+  top: 64px; /* Just below the navbar, adjust if navbar height changes */
   left: 0;
-  height: 100vh;
-  width: 300px;
-  max-width: 100vw;
-  background: var(--sidebar-bg, #fafafa);
-  box-shadow: 8px 0 32px rgba(128,0,32,0.10), 1px 0 0 #eee;
-  z-index: 2000;
-  transform: translateX(-100%);
-  transition: transform 0.35s cubic-bezier(0.77,0.2,0.05,1.0), background 0.3s;
-  display: flex;
-  flex-direction: column;
-  padding: 2rem 1.5rem 1.5rem 1.5rem;
-  border-top-right-radius: 18px;
-  border-bottom-right-radius: 18px;
-}
-body.dark-mode #sidebar {
-  --sidebar-bg: #18171a;
-  background: var(--sidebar-bg, #18171a);
-  box-shadow: 4px 0 16px rgba(0,0,0,0.18), 1px 0 0 #333;
-}
-#sidebar.open {
-  transform: translateX(0) !important;
-  z-index: 3000 !important;
-  border: none !important;
-  box-shadow: 8px 0 32px rgba(128,0,32,0.10), 1px 0 0 #eee;
-  border-top-right-radius: 18px;
-  border-bottom-right-radius: 18px;
-}
-
-/* Sidebar card base styles */
-.sidebar-card {
-  background: var(--section-bg);
-  border-radius: 14px;
-  box-shadow: 0 4px 16px rgba(128,0,32,0.07), 0 1.5px 4px rgba(0,0,0,0.04);
-  padding: 1.5rem 1.2rem;
-  margin-bottom: 1.5rem;
-  font-family: 'Fira Mono', 'Consolas', 'Menlo', 'monospace', 'DM Sans', serif;
-  color: var(--text-color);
-  border-left: 4px solid var(--primary-color);
-  position: relative;
-  transition: box-shadow 0.3s, background 0.3s;
-  cursor: pointer;
-  overflow: hidden;
-}
-.sidebar-card:hover {
-  box-shadow: 0 8px 24px rgba(128,0,32,0.13), 0 2px 8px rgba(0,0,0,0.08);
-  transform: translateY(-2px) scale(1.01);
-}
-
-/* Expand/collapse arrow/cross */
-.sidebar-toggle {
-  position: absolute;
-  top: 1.2rem;
-  right: 1.2rem;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  color: var(--primary-color);
-  font-size: 1.5rem;
-  cursor: pointer;
-  transition: transform 0.3s cubic-bezier(0.77,0.2,0.05,1.0), color 0.2s;
-  z-index: 2;
-}
-.sidebar-toggle:focus {
-  outline: 2px solid var(--primary-color);
-}
-.sidebar-toggle .arrow {
-  display: inline-block;
-  transition: transform 0.3s cubic-bezier(0.77,0.2,0.05,1.0);
-}
-.sidebar-card.expanded .sidebar-toggle .arrow {
-  transform: rotate(90deg);
-}
-
-/* Sidebar card content always visible (no expand/collapse) */
-.sidebar-card-content {
-  max-height: none;
-  overflow: visible;
-  transition: none;
-  opacity: 1 !important;
-  padding-right: 4px;
-}
-#now-card.expanded .sidebar-card-content {
-  max-height: 220px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 4px;
-}
-#ideas-card.expanded .sidebar-card-content {
-  max-height: 320px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 4px;
-}
-
-/* Remove lazy-loading shimmer/flashing effect from sidebar cards */
-.sidebar-card.lazy-loading {
-  background: var(--section-bg);
-  animation: none;
-}
-
-/* Make Ideas card content scrollable */
-#ideas-card .sidebar-card-content {
-  max-height: 320px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 4px;
-}
-
-/* Remove burgundy left border from individual idea cards */
-#ideas-card .idea-card {
-  border-left: none;
-}
-
-/* Make Now card scrollable vertically */
-#now-card .sidebar-card-content {
-  max-height: 220px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 4px;
-}
-
-/* Make Ideas card scrollable vertically */
-#ideas-card .sidebar-card-content {
-  max-height: 320px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 4px;
-}
-#ideas-card .sidebar-card-content::-webkit-scrollbar,
-#ideas-card .sidebar-card-content::-webkit-scrollbar-thumb,
-#ideas-card .sidebar-card-content::-webkit-scrollbar-track {
-  background: none;
-}
-
-/* Progress bar below navbar: color set by JS */
-#scroll-progress-bar {
-  position: fixed;
-  top: 64px;
-  left: 0;
-  height: 4px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-  z-index: 3001;
   width: 0;
-  transition: width 0.2s cubic-bezier(0.77,0.2,0.05,1.0), background 0.2s;
-}
-
-/* Responsive sidebar */
-@media (max-width: 600px) {
-  #sidebar {
-    width: 100vw;
-    max-width: 100vw;
-    padding: 1.5rem 1rem 1rem 1rem;
-  }
-}
-
-/* Now Card styles */
-.now-card {
+  height: 4px;
   background: #fff;
-  border-left: 4px solid #800020;
-  border-radius: 14px;
-  box-shadow: 0 4px 16px rgba(128,0,32,0.07), 0 1.5px 4px rgba(0,0,0,0.04);
-  padding: 1.5rem 1.2rem;
-  margin-bottom: 2rem;
-  font-family: 'Fira Mono', 'Consolas', 'Menlo', 'monospace', 'DM Sans', serif;
-  color: #333;
-}
-.now-card h3 {
-  margin-top: 0;
-  margin-bottom: 1rem;
-  color: #800020;
-  font-size: 1.2rem;
-  font-family: inherit;
-}
-.now-card ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.now-card li {
-  margin-bottom: 0.7rem;
-  font-size: 1rem;
-  font-family: inherit;
-}
-
-/* Sidebar close button */
-#sidebar .close-btn {
-  position: absolute;
-  top: 18px;
-  right: 18px;
-  background: var(--primary-color);
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  font-size: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 8px rgba(128,0,32,0.10);
-  z-index: 10;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-}
-#sidebar .close-btn:hover {
-  background: #a20032;
-  color: #fff;
-  box-shadow: 0 4px 16px rgba(128,0,32,0.18);
-}
-
-/* CS Logo hover/click */
-nav h1 {
-  margin: 0;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: #f5f5f5;
-  cursor: pointer;
-  transition: transform 0.18s cubic-bezier(0.77,0.2,0.05,1.0), box-shadow 0.18s;
-}
-nav h1:hover {
-  transform: scale(1.08);
-  box-shadow: 0 0 12px 2px #80002044;
-}
-
-/* Fix arrow overlap in second card (Ideas) */
-#ideas-card .sidebar-toggle {
-  right: 2.2rem;
-}
-#ideas-card h3 {
-  margin-right: 2.5rem;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);
+  z-index: 999;
+  transition: width 0.2s ease;
+  pointer-events: none;
 }
