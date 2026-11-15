@@ -1,234 +1,33 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CS | Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="assets/sun-moon-icon.png" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chandrani Saha · science, code and a tuxedo cat</title>
+  <meta name="description" content="Chandrani Saha: Computational Natural Sciences at IIIT Hyderabad. I build with AI, paint and dance. An interactive portfolio you can scroll through, poke and interview.">
+  <meta name="theme-color" content="#0c0a17">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230c0a17'/%3E%3Crect x='4' y='4' width='56' height='56' rx='9' fill='none' stroke='%23ffb347' stroke-width='3'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-weight='700' font-size='30' text-anchor='middle' fill='%23f4ecdf'%3ECs%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..700&family=Hind+Siliguri:wght@500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script type="module" crossorigin src="./assets/index-CpHnfeUU.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-hYpKLDeJ.css">
 </head>
-<body>
-  <header id="header">
-    <nav>
-      <h1>CS</h1>
-      <div class="nav-links">
-        <a href="#hero">Home</a>
-        <a href="#about">About</a>
-        <a href="#education">Education</a>
-        <a href="#projects">Projects</a>
-        <a href="#work">Work and Experiences</a>
-        <a href="#achievements">Achievements</a>
-        <a href="#skills">Skills</a>
-        <div class="theme-toggles">
-          <button id="theme-toggle" aria-label="Toggle theme">
-            <img src="assets/sun-icon.png" alt="Sun Icon" id="sun-icon" class="theme-icon" />
-            <img src="assets/moon-icon.png" alt="Moon Icon" id="moon-icon" class="theme-icon" />
-          </button>
-        </div>
-      </div>
-    </nav>
-  </header>
-  <div id="progress-bar"></div>
+<body data-mode="explore">
+  <canvas id="world" aria-hidden="true"></canvas>
+  <div class="vignette" aria-hidden="true"></div>
+  <canvas id="paint" aria-hidden="true"></canvas>
+  <div id="labels" aria-hidden="true"></div>
 
-  <main>
-    <section id="hero" class="hero-section">
-      <h1>Chandrani Saha</h1>
-      <h2>B.Tech and MS Dual Degree in Computational Natural Sciences</h2>
-      <div class="hero-links">
-        <a href="mailto:chandranis026@gmail.com" class="contact-btn">
-          <img src="assets/email-icon.png" alt="Email" class="icon">
-          Email
-        </a>
-        <a href="https://linkedin.com/in/chandranisaha" target="_blank" class="contact-btn">
-          <img src="assets/linkedin-icon.png" alt="LinkedIn" class="icon">
-          LinkedIn
-        </a>
-        <a href="https://github.com/chandranisaha" target="_blank" class="contact-btn">
-          <img src="assets/github-icon.png" alt="GitHub" class="icon">
-          GitHub
-        </a>
-        <a href="tel:+919007434664" class="contact-btn">
-          <img src="assets/phone-icon.png" alt="Phone" class="icon">
-          Phone
-        </a>
-      </div>
-      <div class="scroll-indicator">
-        <p>Scroll to explore</p>
-        <div class="scroll-arrow">↓</div>
-      </div>
-    </section>
+  <header class="nav" id="nav"></header>
+  <main id="story"></main>
+  <article id="resume"></article>
 
-    <section id="about" class="track" data-type="text">
-      <h2>About Me</h2>
-      <div class="about-container">
-        <div class="about-image">
-          <img src="assets/img1.jpeg" alt="Profile Photo" class="track" data-type="image" loading="lazy">
-        </div>
-        <div class="about-text">
-          <p>
-            First-year B.Tech and MS Dual Degree student in Computational Natural Sciences at IIIT Hyderabad with a strong academic foundation in computing and science. Quick learner, team player, and highly motivated individual with an eagerness to explore and contribute to real-world projects. Strong inclination towards entrepreneurship, always enthusiastic about new ideas and innovation.
-          </p>
-          <p>Email: <a href="mailto:chandranis026@gmail.com" class="email-btn">chandranis026@gmail.com</a><br>Phone: +91 9007434664<br>Location: Hyderabad, India</p>
-          <p>
-            <a href="https://linkedin.com/in/chandranisaha" target="_blank" class="social-btn">LinkedIn</a><br>
-            <a href="https://github.com/chandranisaha" target="_blank" class="social-btn">GitHub</a>
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <section id="education" class="track" data-type="text">
-      <h2>Education</h2>
-      <div class="education-timeline">
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <h3>B.Tech and MS Dual Degree in Computational Natural Sciences</h3>
-            <h4>International Institute of Information Technology, Hyderabad (IIITH)</h4>
-            <p class="timeline-date">2024 – 2029 (Expected)</p>
-            <p>CGPA: 7.3 (after 1st Semester), Second semester CGPA awaited</p>
-            <p>Courses: Computer Programming, Data Structures and Algorithms, Computing in Sciences 1 and 2, Discrete Structures, Real Analysis, Linear Algebra, Classical Mechanics, Electrodynamics</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <h3>ISC (Class 12)</h3>
-            <h4>G.D. Birla Centre for Education, Kolkata, West Bengal</h4>
-            <p class="timeline-date">2021 – 2023</p>
-            <p>Score: 99%</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <h3>ICSE (Class 10)</h3>
-            <h4>G.D. Birla Centre for Education, Kolkata, West Bengal</h4>
-            <p class="timeline-date">2019 – 2021</p>
-            <p>Score: 98%</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="projects" class="track" data-type="text">
-      <h2>Projects</h2>
-      <div class="section-wrapper">
-        <div class="project-item">
-          <h4>Tribbi AI – LLM-Powered Mock Interview Assistant</h4>
-          <p><strong>Python, Hugging Face, Mistral 7B, LangChain, FastAPI</strong></p>
-          <p>Built an AI mock interview platform using a fine-tuned Mistral 7B model. Engineered adaptive multi-turn prompts and interviewer personas that respond to resumes and simulate company-specific interviews.</p>
-        </div>
-        <div class="project-item">
-          <h4>Rexwo – Health Data Aggregator</h4>
-          <p><strong>React, Firebase, Netlify</strong> | <a href="https://rexwoapp.netlify.app" target="_blank">Live</a></p>
-          <p>Co-founded a healthtech platform to help hospitals analyze patient data. Designed UI flows and frontend functionality. Built during IIIT-H’s StartUp Aid competition.</p>
-        </div>
-        <div class="project-item">
-          <h4>PDF QA Assistant</h4>
-          <p><strong>React.js, FastAPI, Gemini Pro, Pinecone</strong></p>
-          <p>Built a PDF chatbot using Gemini Pro and vector search with Pinecone. Supports multi-PDF uploads and semantic question-answering. Includes a chat UI and persistent history.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="work" class="track" data-type="text">
-      <h2>Work and Experiences</h2>
-      <div class="section-wrapper">
-        <div class="project-item">
-          <h4>Typeflo – SEO & Content Strategy Intern</h4>
-          <p>Automated the blog publishing pipeline with reusable metadata templates and keyword clustering. Improved SEO effectiveness and reduced manual overhead across the content team.</p>
-        </div>
-        <div class="project-item">
-          <h4>Leadership & Extracurricular Activities</h4>
-          <ul>
-            <li>Public Relations Team Member, E-Cell, IIIT Hyderabad</li>
-            <li>Marketing Team Member, Ping! IIIT Hyderabad</li>
-            <li>Social Media Team, ArtSociety & The Dance Crew, IIIT Hyderabad</li>
-            <li>Performance Team, Cyclorama IIITH</li>
-            <li>Social Media Team, Felicity 2024, IIIT Hyderabad</li>
-          </ul>
-        </div>
-        <div class="project-item">
-          <h4>Volunteer Experience</h4>
-          <ul>
-            <li>Volunteer, ISKCON Kolkata – organized community outreach, food distribution, and events.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section id="achievements" class="track" data-type="text">
-      <h2>Achievements</h2>
-      <div class="section-wrapper">
-        <div class="achievement-item">
-          <h4>JBNSTS Scholar (2022)</h4>
-          <p>Awarded by Govt. of West Bengal for scientific research potential</p>
-        </div>
-        <div class="achievement-item">
-          <h4>INSPIRE SHE Scholar (2023)</h4>
-          <p>Govt. of India scholarship for top 1% female science students</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="skills" class="track" data-type="text">
-      <h2>Skills</h2>
-      <div class="skills-section">
-        <h3>Technical Skills</h3>
-        <div class="skills-container">
-          <div class="skill-category">
-            <h4>Languages</h4>
-            <p>C, Java, C++, Python, JavaScript</p>
-          </div>
-          <div class="skill-category">
-            <h4>Web Technologies</h4>
-            <p>HTML, CSS</p>
-          </div>
-          <div class="skill-category">
-            <h4>Databases</h4>
-            <p>SQL, NoSQL (MongoDB basics)</p>
-          </div>
-          <div class="skill-category">
-            <h4>Tools</h4>
-            <p>Git, VS Code, Eclipse, Linux</p>
-          </div>
-          <div class="skill-category">
-            <h4>Core Concepts</h4>
-            <p>Object-Oriented Programming, Data Structures, Algorithms</p>
-          </div>
-        </div>
-      </div>
-      <div class="skills-section">
-        <h3>Other Skills</h3>
-        <div class="extras-grid">
-          <div class="extras-item">
-            <h4>Soft Skills</h4>
-            <p>Leadership, Communication, Critical Thinking, Teamwork, Initiative</p>
-          </div>
-          <div class="extras-item">
-            <h4>Creative Interests</h4>
-            <p>Music, Painting, Dancing</p>
-          </div>
-          <div class="extras-item">
-            <h4>Languages Known</h4>
-            <p>English (Fluent), Bengali (Native), Hindi (Proficient)</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="cv">
-      <h2>Download My CV</h2>
-      <a href="resume1.pdf" class="btn track" data-type="button" download>Download CV</a>
-    </section>
-  </main>
-
-  <footer>
-    <p>© 2025 Chandrani Saha. All rights reserved.</p>
-  </footer>
-
-  <script src="script.js"></script>
+  <div id="paint-chip" class="chip-float" hidden>paint mode · <kbd>P</kbd> exit · <kbd>C</kbd> clear</div>
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+  <dialog id="palette" aria-label="Command palette"></dialog>
+  <dialog id="case" aria-label="Project case study"></dialog>
+  <noscript><p style="padding:2rem;color:#f4ecdf">This site needs JavaScript. Email me instead: chandranis026@gmail.com</p></noscript>
 </body>
 </html>
