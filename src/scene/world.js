@@ -42,6 +42,8 @@ export async function createWorld({ canvas, labelsEl, sections, chapters, word, 
   const emit = (name, ...args) => (listeners[name] || []).forEach(fn => fn(...args));
 
   let W = 1, H = 1, heroDist = 14, metrics = [];
+  let heroText = null, contactText = null, contactWord = 'say hello';
+  const wordCache = new Map();
   const tanF = Math.tan((camera.fov * Math.PI) / 360);
 
   function measure() {
@@ -54,8 +56,18 @@ export async function createWorld({ canvas, labelsEl, sections, chapters, word, 
     camera.aspect = W / H; camera.updateProjectionMatrix();
     particles.material.uniforms.uScale.value = (H * renderer.getPixelRatio()) / (2 * tanF);
     heroDist = Math.max(14, 5.2 / (tanF * camera.aspect));
-    particles.text = sampleText(word, count, Math.min(13, 0.84 * 2 * tanF * heroDist * camera.aspect));
+    heroText = sampleText(word, count, Math.min(13, 0.84 * 2 * tanF * heroDist * camera.aspect));
+    wordCache.clear(); contactText = sampleWord(contactWord);
     measure();
+  }
+  // The word the particles spell in the contact section, placed beside the card.
+  function sampleWord(w) {
+    if (!wordCache.has(w)) {
+      if (wordCache.size > 12) wordCache.delete(wordCache.keys().next().value);
+      const portrait = camera.aspect < 0.9, vis = 2 * tanF * heroDist * camera.aspect;
+      wordCache.set(w, sampleText(w, count, portrait ? Math.min(8, vis * 0.84) : Math.min(8.5, vis * 0.42), portrait ? 0 : 0.9, 1.9));
+    }
+    return wordCache.get(w);
   }
 
   // Camera shots, one per section.
@@ -66,7 +78,7 @@ export async function createWorld({ canvas, labelsEl, sections, chapters, word, 
     if (key === 'hero') { out.pos.set(0, 0, heroDist); out.look.set(0, 0, 0); }
     else if (key === 'about') { out.pos.set(-1.5, 1.4, heroDist * 0.98); out.look.set(0, -0.4, 0); side = 1; }
     else if (key === 'twin') { out.pos.set(0.6, 0.7, portrait ? 12 : 7.6); out.look.set(0, 0.25, 0); side = -1; }
-    else if (key === 'contact') { out.pos.set(5, 2.6, heroDist * 0.96); out.look.set(0, -0.6, 0); side = 1; }
+    else if (key === 'contact') { out.pos.set(0, 0, heroDist); out.look.set(0, 0, 0); side = 1; }
     else {
       const a = A.atoms[key];
       dir.set(a.base.x * 0.3, a.base.y * 0.08 + 0.2, a.base.z * 0.3 + 1).normalize();
@@ -103,7 +115,7 @@ export async function createWorld({ canvas, labelsEl, sections, chapters, word, 
   document.documentElement.addEventListener('pointerleave', () => { pointerIn = false; });
   canvas.addEventListener('pointerdown', e => {
     ndc.set((e.clientX / W) * 2 - 1, -((e.clientY / H) * 2 - 1));
-    if (e.button === 0 && f < 0.45 && !pick()) { holding = true; holdStart = performance.now(); }
+    if (e.button === 0 && (f < 0.45 || f > keys.length - 1.5) && !pick()) { holding = true; holdStart = performance.now(); }
   });
   addEventListener('pointerup', () => {
     if (!holding) return;
@@ -150,8 +162,11 @@ export async function createWorld({ canvas, labelsEl, sections, chapters, word, 
     while (i < metrics.length - 1 && center >= metrics[i].top + metrics[i].h) i++;
     const lt = clamp01((center - metrics[i].top) / metrics[i].h);
     f = Math.min(keys.length - 1, i + smooth(0.55, 1, lt));
-    const mode = f < 0.45 ? 0 : Math.abs(f - twinIdx) < 0.5 ? 2 : 1;
-    reveal = backOut(smooth(0.25, 0.9, f));
+    // The page opens and closes on a word made of particles; the molecule lives in between.
+    const atEnd = f > keys.length - 1.5;
+    const mode = f < 0.45 || atEnd ? 0 : Math.abs(f - twinIdx) < 0.5 ? 2 : 1;
+    particles.text = atEnd ? contactText : heroText;
+    reveal = backOut(smooth(0.25, 0.9, f)) * (1 - smooth(keys.length - 1.6, keys.length - 1.1, f));
 
     const i0 = Math.floor(f), i1 = Math.min(keys.length - 1, i0 + 1), u = f - i0;
     shot(keys[i0], sa); shot(keys[i1], sb);
@@ -201,7 +216,7 @@ export async function createWorld({ canvas, labelsEl, sections, chapters, word, 
     burst = 0;
 
     // Atom labels.
-    const ow = Math.max(1 - Math.abs(f - 1), 1 - Math.abs(f - (keys.length - 1)));
+    const ow = 1 - Math.abs(f - 1);
     const baseOp = smooth(0.4, 0.9, ow);
     for (const a of A.list) {
       a.group.getWorldPosition(tmp); a.group.getWorldScale(ts);
@@ -232,6 +247,10 @@ export async function createWorld({ canvas, labelsEl, sections, chapters, word, 
     setThink(v) { thinkGoal = v; },
     setSpeak(v, color) { speakGoal = v; if (color) particles.material.uniforms.uTint.value.set(color); },
     pet() { cat.pet(); },
+    /** Change the word the particles spell in the contact section. */
+    setWord(w) { contactWord = w; contactText = sampleWord(w); },
+    setStage(act) { A.atoms.rhythm?.mini?.userData.setMode?.(act); },
+    kick(n = 2) { particles.kick(n); },
     /** Screen position of the cat's head, for hearts. */
     catScreen() { tmp.copy(cat.root.position); tmp.y += 0.7; tmp.project(camera); return { x: (tmp.x * 0.5 + 0.5) * W, y: (-tmp.y * 0.5 + 0.5) * H }; },
     get section() { return perchKey; },

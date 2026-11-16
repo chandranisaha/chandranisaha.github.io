@@ -1,5 +1,7 @@
 import './style.css';
-import { me, chapters, twin as twinData, ORDER } from './content.js';
+import { me, chapters, contact, twin as twinData, ORDER, NAV } from './content.js';
+import { createStage } from './stage.js';
+import { createConnect } from './connect.js';
 import { renderApp } from './ui.js';
 import { createWorld } from './scene/world.js';
 import { createTwin } from './twin.js';
@@ -64,7 +66,7 @@ const soundBtn = $('#sound-btn');
 function setSound(v) {
   sound.set(v);
   soundBtn.setAttribute('aria-pressed', String(v));
-  soundBtn.querySelector('span').textContent = v ? 'on' : 'off';
+  soundBtn.querySelector('.lbl').textContent = v ? 'Sound on' : 'Sound off';
 }
 soundBtn.addEventListener('click', () => setSound(!sound.on));
 
@@ -116,15 +118,51 @@ const actions = {
   paint: () => setPaint(!paint.on),
   sound: () => setSound(!sound.on),
   palette: () => palette.open(),
+  dance,
 };
 document.addEventListener('click', e => {
   const b = e.target.closest('[data-action]');
   if (b && actions[b.dataset.action]) actions[b.dataset.action]();
+  const g = e.target.closest('[data-go]');
+  if (g) goTo(g.dataset.go);
 });
 
+// Header: the section rail follows the scroll, and a hairline shows how far down the page you are.
+const rail = $('.rail'), railInd = $('.rail-ind'), railBtns = [...document.querySelectorAll('.rail [data-go]')];
+const colorOf = Object.fromEntries(chapters.map(c => [c.key, c.color]));
+let railKey = null;
+function setRail(key = railKey) {
+  railKey = key;
+  const b = railBtns.find(x => x.dataset.go === key);
+  railBtns.forEach(x => x.classList.toggle('on', x === b));
+  railInd.style.opacity = b ? 1 : 0;
+  if (!b) return;
+  rail.style.setProperty('--rc', colorOf[key] || '#ffb347');
+  railInd.style.width = `${b.offsetWidth}px`;
+  railInd.style.transform = `translateX(${b.offsetLeft}px)`;
+}
+addEventListener('resize', () => setRail());
+document.fonts?.ready.then(() => setRail());
+
+const progress = $('#progress');
+let progressQueued = false;
+addEventListener('scroll', () => {
+  if (progressQueued) return;
+  progressQueued = true;
+  requestAnimationFrame(() => {
+    progressQueued = false;
+    const max = document.documentElement.scrollHeight - innerHeight;
+    progress.style.transform = `scaleX(${max > 0 ? Math.min(1, scrollY / max) : 0})`;
+  });
+}, { passive: true });
+
+const clock = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Kolkata' });
+const tickClock = () => document.querySelectorAll('[data-clock]').forEach(el => { el.textContent = clock.format(new Date()); });
+tickClock(); setInterval(tickClock, 20000);
+
 const palette = createPalette($('#palette'), [
-  ...ORDER.filter(k => k !== 'hero').map(k => ({ label: `go ${k === 'lead' ? 'people' : k === 'art' ? 'paint' : k}`, hint: 'jump', run: () => goTo(k) })),
-  { label: 'résumé', hint: '30-second version', run: toggleMode },
+  ...ORDER.filter(k => NAV[k]).map(k => ({ label: `go ${NAV[k]}`, hint: 'jump', run: () => goTo(k) })),
+  { label: 'résumé', hint: 'the quick version', run: toggleMode },
   { label: 'sound', hint: 'toggle', run: () => setSound(!sound.on) },
   { label: 'paint', hint: 'toggle brush', run: () => setPaint(!paint.on) },
   { label: 'meow', hint: 'pet the cat', run: pet },
@@ -155,6 +193,7 @@ try {
   world = await createWorld({ canvas: $('#world'), labelsEl: $('#labels'), sections, chapters, word: me.word, calm });
   world.on('pet', () => { hearts(); sound.meow(); secrets.find('cat'); });
   world.on('blackhole', () => secrets.find('blackhole'));
+  world.on('section', key => setRail(key));
   world.on('atom', key => { sound.note(noteOf[key] ?? 0); goTo(key); });
   world.on('hover', key => {
     sound.note(noteOf[key] ?? 0);
@@ -167,5 +206,7 @@ try {
 }
 
 createTwin({ root: $('#twin'), data: twinData, world, sound, goTo, onCovered: () => secrets.find('twin') });
+createStage({ root: $('#rhythm'), acts: chapters.find(c => c.key === 'rhythm').acts, world, sound });
+createConnect({ root: $('#contact'), email: me.email, reasons: contact.reasons, world, calm });
 
 if (new URLSearchParams(location.search).get('view') === 'resume') setMode('resume');

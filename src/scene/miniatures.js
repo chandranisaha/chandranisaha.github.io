@@ -175,8 +175,8 @@ function ribbons(color) {
   return g;
 }
 
-/** Rhythm: a circular equaliser, with a ring of sound leaving on every beat. */
-function equaliser(color) {
+/** Stage: one ring, three acts. Music is an equaliser, dance is a travelling wave with two dancers, dramatics is a lit stage. */
+function stage(color) {
   const g = new THREE.Group(), ring = new THREE.Group();
   g.add(ring); ring.rotation.x = 0.5;
   const N = 72, bars = new THREE.InstancedMesh(new THREE.BoxGeometry(0.017, 1, 0.017), new THREE.MeshBasicMaterial(), N);
@@ -188,26 +188,58 @@ function equaliser(color) {
     w.rotation.x = Math.PI / 2; ring.add(w); return { w, off };
   });
   const heart = ball('#ffffff', 0.05); ring.add(heart);
+  const dancers = [0, Math.PI].map(off => { const d = ball('#ffffff', 0.001); ring.add(d); return { d, off }; });
+  const spots = [-1, 1].map(sx => {
+    const pivot = new THREE.Group(); pivot.position.set(sx * 0.36, 0.8, 0);
+    const cone = new THREE.Mesh(new THREE.ConeGeometry(0.21, 0.88, 32, 1, true), glow(sx < 0 ? '#fff3dd' : color, 0));
+    cone.material.side = THREE.DoubleSide; cone.position.y = -0.44;
+    pivot.add(cone); ring.add(pivot);
+    return { pivot, cone, sx };
+  });
+  const floor = new THREE.Mesh(new THREE.CircleGeometry(0.42, 48), glow('#fff3dd', 0));
+  floor.rotation.x = -Math.PI / 2; floor.position.y = -0.04; floor.material.side = THREE.DoubleSide; ring.add(floor);
+
   const m = new THREE.Matrix4(), q = new THREE.Quaternion(), p = new THREE.Vector3(), s = new THREE.Vector3(1, 1, 1);
-  let tt = 0;
+  let tt = 0, mode = 'drama', wm = 0, wd = 0, wt = 1;
   g.userData.spin = 0.15;
+  g.userData.setMode = v => { mode = v; };
   g.userData.tick = (t, hover, dt) => {
     tt += dt * (1 + hover * 0.8);
+    const k = 1 - Math.exp(-dt * 5);
+    wm += ((mode === 'music' ? 1 : 0) - wm) * k; wd += ((mode === 'dance' ? 1 : 0) - wd) * k; wt += ((mode === 'drama' ? 1 : 0) - wt) * k;
+    g.userData.spin = 0.03 + 0.14 * (1 - wt);
     const beat = Math.pow(Math.abs(Math.sin(tt * 2.5)), 3);
     for (let i = 0; i < N; i++) {
       const a = (i / N) * 6.2832;
-      s.y = 0.035 + (0.5 + 0.5 * Math.sin(i * 0.61 + tt * 2.1)) * (0.5 + 0.5 * Math.sin(i * 0.23 - tt * 1.3)) * (0.14 + 0.34 * beat) * (1 + hover * 0.5);
-      p.set(Math.cos(a) * 0.44, 0, Math.sin(a) * 0.44);
+      const hm = 0.035 + (0.5 + 0.5 * Math.sin(i * 0.61 + tt * 2.1)) * (0.5 + 0.5 * Math.sin(i * 0.23 - tt * 1.3)) * (0.14 + 0.34 * beat) * (1 + hover * 0.5);
+      const lobe = Math.sin(a * 3 - tt * 3.2);
+      const hd = 0.05 + 0.24 * (0.5 + 0.5 * lobe);
+      const ht = 0.028 + 0.022 * (0.5 + 0.5 * Math.sin(a * 12 + tt * 1.5));
+      s.y = wm * hm + wd * hd + wt * ht;
+      const r = 0.44 + wd * 0.07 * Math.sin(a * 2 + tt * 2.2);
+      p.set(Math.cos(a) * r, wd * 0.06 * lobe, Math.sin(a) * r);
       bars.setMatrixAt(i, m.compose(p, q, s));
     }
     bars.instanceMatrix.needsUpdate = true;
+    ring.rotation.z = wd * Math.sin(tt * 1.1) * 0.22;
     for (const { w, off } of waves) {
       const u = (tt * 0.4 + off) % 1;
-      w.scale.setScalar(0.16 + u * 0.66); w.material.opacity = (1 - u) * 0.75;
+      w.scale.setScalar(0.16 + u * 0.66); w.material.opacity = (1 - u) * 0.75 * (wm + 0.35 * wd);
     }
-    heart.scale.setScalar(0.04 + beat * 0.03);
+    for (const { d, off } of dancers) {
+      const ang = tt * 1.7 + off;
+      d.position.set(Math.sin(ang) * 0.27, 0.12 + 0.07 * Math.sin(ang * 2), Math.sin(ang * 2) * 0.14);
+      d.scale.setScalar(0.001 + 0.034 * wd);
+    }
+    for (const { pivot, cone, sx } of spots) {
+      pivot.rotation.z = -sx * 0.38 + Math.sin(tt * 0.8 + sx) * 0.17;
+      pivot.rotation.x = Math.sin(tt * 0.55 + sx * 2) * 0.12;
+      cone.material.opacity = wt * 0.1;
+    }
+    floor.material.opacity = wt * (0.1 + 0.03 * Math.sin(tt * 1.3));
+    heart.scale.setScalar(0.04 + beat * 0.03 * wm + wt * 0.025);
   };
   return g;
 }
 
-export const MINI = { science: attractor, build: stack, lead: network, art: ribbons, rhythm: equaliser };
+export const MINI = { science: attractor, build: stack, lead: network, art: ribbons, rhythm: stage };

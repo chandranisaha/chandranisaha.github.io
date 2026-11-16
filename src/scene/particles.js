@@ -32,7 +32,7 @@ function unit(out, o) {
 }
 
 /** Sample points from rendered text, scaled so the word is `width` world units wide. */
-export function sampleText(text, count, width) {
+export function sampleText(text, count, width, oy = 0, maxH = Infinity) {
   const c = document.createElement('canvas');
   c.width = 1600; c.height = 420;
   const g = c.getContext('2d', { willReadFrequently: true });
@@ -56,12 +56,12 @@ export function sampleText(text, count, width) {
   }
   const out = new Float32Array(count * 3);
   if (!pts.length) return out;
-  const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2, s = width / (x1 - x0);
+  const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2, s = Math.min(width / (x1 - x0), maxH / Math.max(1, y1 - y0));
   const n = pts.length / 2;
   for (let i = 0; i < count; i++) {
     const k = ((Math.random() * n) | 0) * 2;
     out[i * 3] = (pts[k] + Math.random() * 2 - cx) * s;
-    out[i * 3 + 1] = -(pts[k + 1] + Math.random() * 2 - cy) * s;
+    out[i * 3 + 1] = oy - (pts[k + 1] + Math.random() * 2 - cy) * s;
     out[i * 3 + 2] = (Math.random() - 0.5) * 0.3;
   }
   return out;

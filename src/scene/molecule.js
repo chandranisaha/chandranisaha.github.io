@@ -62,7 +62,7 @@ export function buildAtoms(chapters, scene) {
   core.group.add(wire, heart);
 
   for (const c of chapters) add({ key: c.key, label: c.label, p: c.atom, r: 1, color: c.color, side: c.side === 'left' ? 1 : -1 }, mol);
-  const cation = add({ key: 'cation', label: 'the cat-ion ⁺', p: [3.4, -3.3, 1.6], r: 0.5, color: '#f4ecdf' }, scene);
+  const cation = add({ key: 'cation', label: 'the cat-ion ⁺', p: [4.2, -3.3, 1.6], r: 0.5, color: '#f4ecdf' }, scene);
 
   const bonds = [];
   for (const a of list) {
