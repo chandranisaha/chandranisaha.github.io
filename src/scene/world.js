@@ -224,7 +224,7 @@ export async function createWorld({ canvas, labelsEl, sections, chapters, word, 
       tmp.project(camera);
       const op = tmp.z < 1 ? Math.max(baseOp, a.hover, a.key === 'cation' && hoverCat ? 1 : 0) : 0;
       a.labelEl.style.opacity = op.toFixed(2);
-      if (op > 0.01) a.labelEl.style.transform = `translate(${((tmp.x * 0.5 + 0.5) * W).toFixed(1)}px,${((-tmp.y * 0.5 + 0.5) * H).toFixed(1)}px) translate(-50%,0)`;
+      if (op > 0.01) a.labelEl.style.transform = `translate(${Math.min(W - 52, Math.max(52, (tmp.x * 0.5 + 0.5) * W)).toFixed(1)}px,${((-tmp.y * 0.5 + 0.5) * H).toFixed(1)}px) translate(-50%,0)`;
     }
 
     renderer.render(scene, camera);

@@ -5,7 +5,6 @@ import { createConnect } from './connect.js';
 import { renderApp } from './ui.js';
 import { createWorld } from './scene/world.js';
 import { createTwin } from './twin.js';
-import { createSecrets } from './secrets.js';
 import { createPaint } from './paint.js';
 import { createPalette } from './palette.js';
 import { sound } from './audio.js';
@@ -70,14 +69,8 @@ function setSound(v) {
 }
 soundBtn.addEventListener('click', () => setSound(!sound.on));
 
-// Secrets
-const secrets = createSecrets({
-  button: $('#secrets-btn'), panel: $('#secrets-panel'), toast,
-  onFind: (n, total) => { sound.note(n + 2); if (n === total) { confetti(140); toast('All seven. You should probably just <b>email me</b>.'); } },
-});
-
 // Paint
-const paint = createPaint($('#paint'), { calm, onPainted: () => secrets.find('paint') });
+const paint = createPaint($('#paint'), { calm });
 function setPaint(v) {
   paint.set(v);
   $('#paint-chip').hidden = !v;
@@ -87,7 +80,6 @@ function setPaint(v) {
 // Dance
 let danceTimer = 0;
 function dance() {
-  secrets.find('dance');
   document.body.classList.add('dance');
   world?.setDance(true);
   sound.beat(9);
@@ -97,7 +89,6 @@ function dance() {
 }
 
 function hire() {
-  secrets.find('hire');
   confetti(120);
   toast('Access granted. Opening a line to the real Chandrani.');
   setTimeout(() => { location.href = `mailto:${me.email}?subject=${encodeURIComponent('sudo hire chandrani')}`; }, 1400);
@@ -107,7 +98,6 @@ function pet() {
   world?.pet();
   hearts();
   sound.meow();
-  secrets.find('cat');
 }
 
 // Buttons with data-action
@@ -187,17 +177,14 @@ addEventListener('keydown', e => {
 // 3D world
 const sections = ORDER.map(key => ({ key, el: document.getElementById(key) }));
 const noteOf = Object.fromEntries(['core', ...chapters.map(c => c.key), 'cation'].map((k, i) => [k, i]));
-const touched = new Set();
 
 try {
   world = await createWorld({ canvas: $('#world'), labelsEl: $('#labels'), sections, chapters, word: me.word, calm });
-  world.on('pet', () => { hearts(); sound.meow(); secrets.find('cat'); });
-  world.on('blackhole', () => secrets.find('blackhole'));
+  world.on('pet', () => { hearts(); sound.meow(); });
   world.on('section', key => setRail(key));
   world.on('atom', key => { sound.note(noteOf[key] ?? 0); goTo(key); });
   world.on('hover', key => {
     sound.note(noteOf[key] ?? 0);
-    if (chapters.some(c => c.key === key)) { touched.add(key); if (touched.size === chapters.length) secrets.find('atoms'); }
   });
   document.addEventListener('visibilitychange', () => world.setPaused(document.hidden || document.body.dataset.mode === 'resume'));
 } catch (err) {
@@ -205,7 +192,7 @@ try {
   setMode('resume');
 }
 
-createTwin({ root: $('#twin'), data: twinData, world, sound, goTo, onCovered: () => secrets.find('twin') });
+createTwin({ root: $('#twin'), data: twinData, world, sound, goTo });
 createStage({ root: $('#rhythm'), acts: chapters.find(c => c.key === 'rhythm').acts, world, sound });
 createConnect({ root: $('#contact'), email: me.email, reasons: contact.reasons, world, calm });
 

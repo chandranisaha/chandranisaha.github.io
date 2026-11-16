@@ -52,7 +52,7 @@ const chapter = c => `
         <p class="lede">${esc(c.lede)}</p>
         ${c.items ? items(c.items) : ''}
         ${c.acts ? acts(c) : ''}
-        ${c.cta ? `<button class="btn" data-action="${c.cta.action}">${esc(c.cta.label)}<small>${esc(c.cta.hint)}</small></button>` : ''}
+        ${c.cta ? `<button class="btn" data-action="${c.cta.action}">${esc(c.cta.label)}</button>` : ''}
       </article>
       ${c.projects ? c.projects.map(project).join('') : ''}
       ${c.more ? more(c.more) : ''}
@@ -72,7 +72,7 @@ function story() {
         <p class="role">${esc(me.role)}</p>
       </div>
     </div>
-    <p class="hint"><span>hold to collapse my name</span><span>scroll to fall into the molecule ↓</span></p>
+    <p class="hint"><span>hold to collapse my name</span><span>scroll ↓</span></p>
   </section>
 
   <section class="chapter side-left" id="about" data-key="about" style="--c:#f4ecdf">
@@ -94,7 +94,7 @@ function story() {
       <article class="card reveal twin">
         <p class="over"><span>06</span>the twin</p>
         <h2>You’re the interviewer now.</h2>
-        <p class="lede">Pick a card or type your own question. My twin answers from my CV and shows where each answer comes from.</p>
+        <p class="lede">Pick a card or type your own question. A small script (no LLM) answers from my CV and shows where each answer comes from.</p>
         <div class="twin-cover">
           <div class="twin-topics">${twin.topics.map(t => `<span data-topic="${t.id}" style="--c:${t.color}">${esc(t.label)}</span>`).join('')}</div>
           <p class="twin-count"><b>0</b>/${twin.topics.length} topics covered</p>
@@ -109,7 +109,6 @@ function story() {
           <p><b>Interview notes:</b> candidate covered five topics without flinching.</p>
           <a class="btn primary" href="mailto:${me.email}?subject=${encodeURIComponent('I interviewed your twin. Now you.')}">Schedule the real interview</a>
         </div>
-        <p class="fine">No LLM behind this. A small retrieval script matches your question to notes I wrote, and it runs entirely in your browser.</p>
       </article>
     </div>
   </section>
@@ -118,27 +117,18 @@ function story() {
     <div class="col wide">
       <article class="card reveal connect">
         <p class="over"><span>07</span>contact</p>
-        <h2>${esc(contact.title)}</h2>
-        <p class="lede">${esc(contact.lede)}</p>
-        <div class="reasons" role="radiogroup" aria-label="What is it about">${contact.reasons.map((r, i) => `<button type="button" role="radio" aria-checked="${i === 0}" data-reason="${r.id}">${esc(r.label)}</button>`).join('')}</div>
+        <h2 class="sr-only">${esc(contact.title)}</h2>
         <form class="compose">
-          <label><span>Your name</span><input name="name" autocomplete="name" maxlength="60" placeholder="So the particles can say hi"></label>
-          <label><span>First line</span><textarea name="line" rows="2" maxlength="600" placeholder="What should I know?"></textarea></label>
-          <div class="preview" aria-live="polite">
-            <span class="pk">To</span><span class="pv">${me.email}</span>
-            <span class="pk">Subject</span><span class="pv" id="pv-subject"></span>
-          </div>
-          <div class="actions">
-            <button class="btn primary" type="submit">Open in your mail app</button>
-            <button class="btn copy" type="button"><span class="copy-lbl">Copy my email</span></button>
-          </div>
+          <p class="say">Hi Chandrani, I’m <span class="nw"><input class="blank" name="name" autocomplete="name" maxlength="40" placeholder="your name" aria-label="Your name">,</span> and I’d like to talk about <span class="reasons" role="radiogroup" aria-label="Topic">${contact.reasons.map(r => `<button type="button" role="radio" aria-checked="false" data-reason="${r.id}">${esc(r.label)}</button>`).join('<i aria-hidden="true">/</i>')}</span>.</p>
+          <textarea class="note" name="line" rows="2" maxlength="600" placeholder="Add a line, if you like" aria-label="Message"></textarea>
+          <button class="send" type="submit"><span>Write the email</span><i aria-hidden="true">→</i></button>
         </form>
-        <div class="orbs">
-          <a class="orb" href="${me.linkedin}" ${ext}><b>LinkedIn</b><small>/in/chandranisaha</small></a>
-          <a class="orb" href="${me.github}" ${ext}><b>GitHub</b><small>@chandranisaha</small></a>
-          ${me.cv ? `<a class="orb" href="${esc(me.cv)}" ${ext}><b>CV</b><small>PDF</small></a>` : '<button class="orb" type="button" data-action="resume"><b>Résumé</b><small>the quick version</small></button>'}
-        </div>
-        <p class="fine">It is <span data-clock></span> in Hyderabad right now. There are seven secrets on this page, if you are still exploring.</p>
+        <button class="mail copy" type="button" aria-label="Copy email address"><span class="mail-addr">${me.email}</span><span class="copy-lbl">Copy</span></button>
+        <nav class="dir" aria-label="Elsewhere">
+          <a href="${me.linkedin}" ${ext}>LinkedIn<i aria-hidden="true">↗</i></a>
+          <a href="${me.github}" ${ext}>GitHub<i aria-hidden="true">↗</i></a>
+          ${me.cv ? `<a href="${esc(me.cv)}" ${ext}>CV<i aria-hidden="true">↗</i></a>` : '<button type="button" data-action="resume">Résumé<i aria-hidden="true">→</i></button>'}
+        </nav>
       </article>
     </div>
   </section>`;
@@ -152,12 +142,10 @@ function nav() {
   </button>
   <nav class="rail" aria-label="Sections">${ORDER.filter(k => NAV[k]).map(k => `<button data-go="${k}">${esc(NAV[k])}</button>`).join('')}<i class="rail-ind" aria-hidden="true"></i></nav>
   <div class="nav-right">
-    <button class="pill" id="secrets-btn" aria-expanded="false" aria-controls="secrets-panel" title="Secrets found"><svg class="gem" viewBox="0 0 10 10" aria-hidden="true"><path d="M5 0l5 5-5 5-5-5z"/></svg><b>0</b>/7</button>
     <button class="pill" id="sound-btn" aria-pressed="false" title="Sound"><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="lbl">Sound off</span></button>
     <button class="pill kbd" data-action="palette" title="Command palette">Ctrl K</button>
     <button class="pill mode" data-action="resume" title="Plain résumé view"><span class="when-explore">Quick résumé</span><span class="when-resume">Back to the full site</span></button>
-  </div>
-  <div id="secrets-panel" class="panel" hidden></div>`;
+  </div>`;
 }
 
 function resume() {

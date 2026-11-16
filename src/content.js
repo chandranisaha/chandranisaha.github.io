@@ -5,8 +5,8 @@ const GH = 'https://github.com/chandranisaha';
 export const me = {
   name: 'Chandrani Saha',
   word: 'chandrani', // the word the particles spell
-  role: 'Computer Science + Computational Natural Sciences, IIIT Hyderabad',
-  tagline: 'I study science, build software, and spend the rest of my time on a stage or at an easel.',
+  role: 'Computer Science, IIIT Hyderabad',
+  tagline: 'I build software, from kernel schedulers to games. The rest of my time goes to a stage or an easel.',
   email: 'chandranisaha2006@gmail.com',
   location: 'Hyderabad, India',
   github: GH,
@@ -26,13 +26,13 @@ export const C = {
 export const ORDER = ['hero', 'about', 'science', 'build', 'lead', 'art', 'rhythm', 'twin', 'contact'];
 
 // Short names used in the header and the command palette.
-export const NAV = { about: 'hello', science: 'science', build: 'projects', lead: 'work', art: 'paint', rhythm: 'stage', twin: 'twin', contact: 'contact' };
+export const NAV = { about: 'hello', science: 'education', build: 'projects', lead: 'work', art: 'paint', rhythm: 'stage', twin: 'twin', contact: 'contact' };
 
 export const about = {
-  title: 'Part scientist, part builder, part artist.',
-  lede: "I'm Chandrani, a dual-degree student at IIIT Hyderabad: a B.Tech in Computer Science with an MS in Computational Natural Sciences. I like problems where code meets the physical world, and I like making things people want to poke at.",
-  more: 'This page is a molecule of me. Each atom is one part of my life. Scroll through it, or click an atom to jump there.',
-  facts: ['Kolkata → Hyderabad', 'B.Tech CS + MS CNS, IIIT-H', 'systems · data · games', 'paint · music · theatre', 'English · বাংলা · हिन्दी'],
+  title: 'A computer science student who builds things.',
+  lede: "I'm Chandrani, a computer science student at IIIT Hyderabad. I like systems programming, algorithms and data, and I like turning them into software people can open and use.",
+  more: 'So far: a shell and a kernel scheduler in C, a distributed file system, a SAT solver, a hackathon-winning game, and a summer at Chubb working on natural-language-to-SQL.',
+  facts: ['B.Tech CS, IIIT Hyderabad', 'systems · algorithms · data', 'C · C++ · Python', 'Kolkata → Hyderabad'],
 };
 
 export const skills = [
@@ -44,11 +44,11 @@ export const skills = [
 
 export const chapters = [
   {
-    key: 'science', no: '01', label: 'science', color: C.teal, side: 'right', atom: [-3.3, 1.9, 0.4],
-    title: 'I think in science.',
-    lede: 'My master’s side is Computational Natural Sciences: physics, chemistry and biology done with algorithms. It taught me to model a problem before touching the keyboard.',
+    key: 'science', no: '01', label: 'education', color: C.teal, side: 'right', atom: [-3.3, 1.9, 0.4],
+    title: 'Computer science at IIIT Hyderabad.',
+    lede: 'Algorithms, systems and data, in a dual-degree programme. Most of what I know I learned by building it: a shell, a file system, a solver.',
     items: [
-      { title: 'IIIT Hyderabad', meta: '2024 – present', text: 'B.Tech in Computer Science with an MS in Computational Natural Sciences. Coursework: Data Structures & Algorithms, Algorithm Analysis & Design, Discrete Structures, Automata Theory, Probability & Random Processes, Linear Algebra, Data & Applications.' },
+      { title: 'IIIT Hyderabad', meta: '2024 – present', text: 'B.Tech in Computer Science, with an MS in Computational Natural Sciences as the dual-degree half. Coursework: Data Structures & Algorithms, Algorithm Analysis & Design, Discrete Structures, Automata Theory, Probability & Random Processes, Linear Algebra, Data & Applications.' },
       { title: 'All India Rank 4', meta: 'ISC board examinations', text: 'Fourth in the country in the Class XII boards, with 99%.' },
       { title: 'JBNSTS Scholar', meta: 'Govt. of West Bengal', text: 'Jagadis Bose National Science Talent Search scholar.' },
       { title: 'INSPIRE Scholarship', meta: 'DST, Govt. of India', text: 'Qualified for the scholarship awarded to the top 1% of students nationwide.' },
@@ -156,7 +156,7 @@ export const chapters = [
     key: 'art', no: '04', label: 'paint', color: C.pink, side: 'left', atom: [-3.6, -1.6, -0.8],
     title: 'I paint.',
     lede: 'I hold a senior diploma in art, and painting is still my reset button. It leaks into what I build: Pixel Room is a pixel-art bedroom and Minar is a painted island.',
-    cta: { action: 'paint', label: 'Turn your cursor into a brush', hint: 'or press P' },
+    cta: { action: 'paint', label: 'Turn your cursor into a brush' },
   },
   {
     key: 'rhythm', no: '05', label: 'stage', color: C.lav, side: 'right', atom: [-0.6, -3.5, 0.6],
@@ -164,7 +164,7 @@ export const chapters = [
     lede: 'The other half of my week happens on a stage. Pick an act.',
     acts: [
       { id: 'drama', label: 'Dramatics', title: 'Coordinator of Cyclorama.', text: 'I coordinate Cyclorama, the dramatics club at IIIT Hyderabad, after starting out on its performance team. Away from the stage I am a district-level debater and orator, which is the same skill with fewer costumes.' },
-      { id: 'music', label: 'Music', title: 'Trained in classical music.', text: 'I hold a senior diploma in classical music. It is also why this page makes sound: every atom plays a note.', cta: { action: 'sound', label: 'Turn sound on' } },
+      { id: 'music', label: 'Music', title: 'Trained in classical music.', text: 'I hold a senior diploma in classical music. It is also why this page makes sound: every section plays a note.', cta: { action: 'sound', label: 'Turn sound on' } },
       { id: 'dance', label: 'Dance', title: 'Dance, on campus and off.', text: 'Dance has been with me for as long as music has. At IIIT-H I worked with The Dance Crew on how their performances reach people.', cta: { action: 'dance', label: 'Start a dance break' } },
     ],
     roles: [
@@ -181,13 +181,12 @@ export const chapters = [
 ];
 
 export const contact = {
-  title: 'Start a conversation.',
-  lede: 'Tell me what it is about and the particles will spell it out. Type your name and they will greet you.',
+  title: 'Contact',
   reasons: [
-    { id: 'hello', label: 'Just hello', word: 'say hello', subject: 'Hello' },
-    { id: 'intern', label: 'An internship', word: 'internship', subject: 'Internship opportunity' },
-    { id: 'research', label: 'Research', word: 'research', subject: 'Research collaboration' },
-    { id: 'project', label: 'A project', word: 'build it', subject: 'A project idea' },
+    { id: 'intern', label: 'an internship', word: 'internship', subject: 'Internship opportunity' },
+    { id: 'research', label: 'research', word: 'research', subject: 'Research collaboration' },
+    { id: 'project', label: 'a project', word: 'build it', subject: 'A project idea' },
+    { id: 'hello', label: 'nothing in particular', word: 'say hello', subject: 'Hello' },
   ],
 };
 
@@ -208,7 +207,7 @@ export const twin = {
   fallback: 'That one is not in my notes. I am a small retrieval script, so I only know what Chandrani wrote down for me. The real one answers email.',
   entries: [
     { id: 'intro', topic: 'about', q: 'Tell me about yourself.', keywords: ['yourself', 'introduce', 'introduction', 'who', 'background', 'summary', 'bio'],
-      a: 'I’m a dual-degree student at IIIT Hyderabad: a B.Tech in Computer Science with an MS in Computational Natural Sciences. I interned at Chubb on a natural-language-to-SQL platform, I have written a shell, a file system and a SAT solver, and off-screen I coordinate the dramatics club, paint and play classical music.',
+      a: 'I’m a computer science student at IIIT Hyderabad, in the dual-degree programme. I interned at Chubb on a natural-language-to-SQL platform, I have written a shell, a file system and a SAT solver, and off-screen I coordinate the dramatics club, paint and play classical music.',
       src: [{ label: 'About', to: 'about' }] },
     { id: 'chubb', topic: 'experience', q: 'What did you do at Chubb?', keywords: ['chubb', 'justask', 'genbi', 'sql', 'insurance', 'semantic', 'nl2sql', 'enterprise', 'thailand', 'summer', 'bi', 'analytics', 'data'],
       a: 'I was a Summer Technology Intern at Chubb in 2026, working on JustAsk, a GenBI platform that turns natural-language business questions into SQL over enterprise insurance datasets using semantic modelling. My part was the semantic layer: business glossaries, metrics, relationships and metadata, built with engineering teams across India and Thailand to make the generated queries more accurate and reliable.',
@@ -235,11 +234,11 @@ export const twin = {
       a: 'Languages: C, C++, Python, Java, JavaScript, SQL and Bash. Fundamentals: data structures and algorithms, operating systems, distributed systems, databases and computer networks. Libraries: FastAPI, Flask, NumPy, PyTorch and Pandas. Tools: Git, Linux, MySQL and Docker.',
       src: [{ label: 'Projects → Toolbox', to: 'build' }] },
     { id: 'science', topic: 'education', q: 'What do you study?', keywords: ['study', 'degree', 'college', 'university', 'iiit', 'iiith', 'hyderabad', 'education', 'course', 'coursework', 'major', 'cns', 'computational', 'natural', 'science', 'graduate', 'graduation', 'year', 'computer'],
-      a: 'A B.Tech in Computer Science with an MS in Computational Natural Sciences at IIIT Hyderabad, since 2024. Coursework so far: data structures and algorithms, algorithm analysis and design, discrete structures, automata theory, probability and random processes, linear algebra, and data and applications.',
-      src: [{ label: 'Science → IIIT Hyderabad', to: 'science' }] },
+      a: 'Computer Science at IIIT Hyderabad, since 2024. It is a dual degree: a B.Tech in CS with an MS in Computational Natural Sciences. Coursework so far: data structures and algorithms, algorithm analysis and design, discrete structures, automata theory, probability and random processes, linear algebra, and data and applications.',
+      src: [{ label: 'Education → IIIT Hyderabad', to: 'science' }] },
     { id: 'awards', topic: 'education', q: 'Any scholarships or awards?', keywords: ['award', 'scholarship', 'scholar', 'achievement', 'inspire', 'jbnsts', 'honour', 'honor', 'marks', 'score', 'school', 'isc', 'icse', 'grade', 'won', 'prize', 'rank', 'air', 'topper'],
       a: 'All India Rank 4 in the ISC board examinations, with 99%. I am a JBNSTS scholar (Jagadis Bose National Science Talent Search, Government of West Bengal) and qualified for the INSPIRE scholarship, which goes to the top 1% of students nationwide. Most recently, runners-up at Megathon 2026 with Minar.',
-      src: [{ label: 'Science → Honours', to: 'science' }, { label: 'Work → Megathon', to: 'lead' }] },
+      src: [{ label: 'Education → Honours', to: 'science' }, { label: 'Work → Megathon', to: 'lead' }] },
     { id: 'drama', topic: 'people', q: 'What do you do at Cyclorama?', keywords: ['cyclorama', 'drama', 'dramatics', 'theatre', 'theater', 'acting', 'stage', 'coordinator', 'club', 'debate', 'debater', 'orator', 'speaking'],
       a: 'I am the coordinator of Cyclorama, the dramatics club at IIIT Hyderabad. I started on the performance team and now run the club. I am also a district-level debater and orator, so I am comfortable with a room full of people looking at me.',
       src: [{ label: 'Stage', to: 'rhythm' }] },
@@ -253,8 +252,8 @@ export const twin = {
       a: 'Music, dance and dramatics, plus a paintbrush. I hold senior diplomas in art and in classical music, I coordinate the dramatics club, and I dance. Press P on this page and your cursor becomes a brush.',
       src: [{ label: 'Stage', to: 'rhythm' }, { label: 'Paint', to: 'art' }] },
     { id: 'cat', topic: 'cat', q: 'Who is the cat?', keywords: ['cat', 'kitty', 'kitten', 'pet', 'tuxedo', 'meow', 'animal'],
-      a: 'The tuxedo cat on this page is modelled on my real one. It follows you from atom to atom and slow-blinks if you pet it. It also lives in Pixel Room, where it judges you for being idle. It has final say on all design decisions.',
-      src: [{ label: 'The cat-ion', to: 'hero' }, { label: 'Projects → Pixel Room', to: 'build' }] },
+      a: 'The tuxedo cat on this page is modelled on my real one. It follows you from section to section and slow-blinks if you pet it. It also lives in Pixel Room, where it judges you for being idle. It has final say on all design decisions.',
+      src: [{ label: 'The cat', to: 'hero' }, { label: 'Projects → Pixel Room', to: 'build' }] },
     { id: 'where', topic: 'about', q: 'Where are you based?', keywords: ['where', 'based', 'location', 'city', 'kolkata', 'hometown', 'relocate', 'bengali', 'hindi', 'english', 'speak', 'spoken'],
       a: 'I’m from Kolkata and based in Hyderabad for my degree. I speak English, Bengali and Hindi.',
       src: [{ label: 'About', to: 'about' }] },
