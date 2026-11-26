@@ -59,7 +59,7 @@ function setSound(v) {
 soundBtn.addEventListener('click', () => setSound(!sound.on));
 
 // Paint
-const paint = createPaint($('#paint'), { calm });
+const paint = createPaint($('#paint'));
 function setPaint(v) {
   paint.set(v);
   $('#paint-chip').hidden = !v;
@@ -144,7 +144,7 @@ const palette = createPalette($('#palette'), [
   { label: 'sudo hire chandrani', hint: 'root', hidden: true, run: hire },
 ]);
 
-// Keys: P paint, C clear, Konami code
+// Keys: P leaves paint mode, C clears it, Konami code
 const KONAMI = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
 let kpos = 0;
 addEventListener('keydown', e => {
@@ -153,7 +153,7 @@ addEventListener('keydown', e => {
   kpos = k === KONAMI[kpos] ? kpos + 1 : k === KONAMI[0] ? 1 : 0;
   if (kpos === KONAMI.length) { kpos = 0; dance(); return; }
   if (document.body.dataset.mode === 'resume') return;
-  if (k === 'p') setPaint(!paint.on);
+  if (k === 'p' && paint.on) setPaint(false);
   else if (k === 'c' && paint.on) paint.clear();
 });
 

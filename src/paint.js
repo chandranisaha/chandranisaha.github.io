@@ -1,7 +1,7 @@
 const COLORS = [[255, 179, 71], [255, 122, 184], [62, 207, 192], [183, 156, 255], [239, 91, 76]];
 
-/** A 2D layer over the scene. The cursor leaves a short watercolour trail; paint mode makes the strokes stay. */
-export function createPaint(canvas, { calm, onPainted }) {
+/** A 2D layer over the scene. Off by default; in paint mode the cursor leaves watercolour strokes. */
+export function createPaint(canvas, { onPainted } = {}) {
   const ctx = canvas.getContext('2d');
   let dpr = 1, mode = false, last = null, ink = 0, travelled = 0, painted = 0, raf = 0;
 
@@ -30,17 +30,16 @@ export function createPaint(canvas, { calm, onPainted }) {
   }
 
   addEventListener('pointermove', e => {
-    if (!mode && (calm || e.pointerType !== 'mouse')) return;
+    if (!mode) { last = null; return; }
     const x = e.clientX * dpr, y = e.clientY * dpr;
     if (last) {
       const dx = x - last.x, dy = y - last.y, d = Math.hypot(dx, dy);
       if (d > 300 * dpr) { last = { x, y }; return; }
       travelled += d;
-      const r = (mode ? 26 : 9) * dpr, steps = Math.max(1, Math.ceil(d / (r * 0.35)));
+      const r = 26 * dpr, steps = Math.max(1, Math.ceil(d / (r * 0.35)));
       const c = COLORS[Math.floor(travelled / (420 * dpr)) % COLORS.length];
-      for (let i = 1; i <= steps; i++) blob(last.x + (dx * i) / steps, last.y + (dy * i) / steps, r * (0.8 + Math.random() * 0.4), c, mode ? 0.16 : 0.1);
-      if (mode) { painted += d / dpr; if (painted > 1800) { painted = -1e9; onPainted?.(); } }
-      else { ink = 1; if (!raf) raf = requestAnimationFrame(tick); }
+      for (let i = 1; i <= steps; i++) blob(last.x + (dx * i) / steps, last.y + (dy * i) / steps, r * (0.8 + Math.random() * 0.4), c, 0.16);
+      painted += d / dpr; if (painted > 1800) { painted = -1e9; onPainted?.(); }
     }
     last = { x, y };
   });
