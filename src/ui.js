@@ -172,10 +172,11 @@ function resume() {
       <div class="r-actions"><button class="btn" data-action="print">Print / save as PDF</button><button class="btn" data-action="resume">Back to the full site</button></div>
     </header>
     <section><h2>Education</h2><ul>${[sci[0], sci[4]].map(row).join('')}</ul></section>
-    <section><h2>Experience</h2><ul>${work.slice(0, 2).map(row).join('')}</ul></section>
+    <section><h2>Research</h2><ul>${row(work[0])}</ul></section>
+    <section><h2>Experience</h2><ul>${work.slice(1, 3).map(row).join('')}</ul></section>
     <section><h2>Projects</h2><ul>${byKey.build.projects.map(p => `<li><div class="r-head"><strong>${esc(p.name)}</strong><span>${esc(p.stack.join(' · '))}</span></div><p>${esc(p.text)}${(p.links || []).map(l => ` <a href="${esc(l.href)}" ${ext}>${esc(l.label)}</a>`).join(' ·')}</p></li>`).join('')}${byKey.build.more.map(m => `<li><div class="r-head"><strong>${m.href ? `<a href="${esc(m.href)}" ${ext}>${esc(m.name)}</a>` : esc(m.name)}</strong><span>${esc(m.stack)}</span></div><p>${esc(m.text)}</p></li>`).join('')}</ul></section>
-    <section><h2>Honours and awards</h2><ul>${[sci[1], sci[2], sci[3], work[2]].map(row).join('')}</ul></section>
-    <section><h2>Leadership and activities</h2><ul class="r-roles">${byKey.rhythm.roles.map(r => `<li><strong>${esc(r[0])}</strong>, ${esc(r[1])}</li>`).join('')}<li>${esc(work[3].title)}: ${esc(work[3].text)}</li></ul></section>
+    <section><h2>Honours and awards</h2><ul>${[sci[1], sci[2], sci[3], work[3]].map(row).join('')}</ul></section>
+    <section><h2>Leadership and activities</h2><ul class="r-roles">${byKey.rhythm.roles.map(r => `<li><strong>${esc(r[0])}</strong>, ${esc(r[1])}</li>`).join('')}<li>${esc(work[4].title)}: ${esc(work[4].text)}</li></ul></section>
     <section><h2>Technical skills</h2><ul class="r-roles">${skills.map(s => `<li><strong>${esc(s.label)}:</strong> ${esc(s.items.join(', '))}</li>`).join('')}</ul></section>
   </div>`;
 }

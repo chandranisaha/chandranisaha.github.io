@@ -6,7 +6,7 @@ export const me = {
   name: 'Chandrani Saha',
   word: 'chandrani', // the word the particles spell
   role: 'Computer Science, IIIT Hyderabad',
-  tagline: 'I build software, from kernel schedulers to games. The rest of my time goes to a stage or an easel.',
+  tagline: 'Studying computer science, learning AI and ML, and exploring research in computational science.',
   email: 'chandranisaha2006@gmail.com',
   location: 'Hyderabad, India',
   github: GH,
@@ -31,7 +31,7 @@ export const NAV = { about: 'hello', science: 'education', build: 'projects', le
 export const about = {
   title: 'A computer science student who builds things.',
   lede: "I'm Chandrani, a computer science student at IIIT Hyderabad. I like systems programming, algorithms and data, and I like turning them into software people can open and use.",
-  more: 'So far: a shell and a kernel scheduler in C, a distributed file system, a SAT solver, a hackathon-winning game, and a summer at Chubb working on natural-language-to-SQL.',
+  more: 'So far: a shell and a kernel scheduler in C, a distributed file system, a SAT solver, a hackathon-winning game, a summer at Chubb working on natural-language-to-SQL, and molecular simulation research at CCNSB.',
   facts: ['B.Tech CS, IIIT Hyderabad', 'systems · algorithms · data', 'C · C++ · Python', 'Kolkata → Hyderabad'],
 };
 
@@ -143,9 +143,10 @@ export const chapters = [
   },
   {
     key: 'lead', no: '03', label: 'work', color: C.red, side: 'right', atom: [4.0, -1.3, -1.2],
-    title: 'Where I’ve worked.',
-    lede: 'Two internships so far: one in enterprise data at Chubb, one in product at a startup. Plus a hackathon podium and a startup idea.',
+    title: 'Research and work.',
+    lede: 'Research in a computational science lab, two internships, a hackathon podium and a startup idea.',
     items: [
+      { title: 'CCNSB, IIIT Hyderabad', meta: 'Undergraduate Researcher · Jul 2026 – present', text: 'I run molecular dynamics simulations of carbon dioxide inside covalent organic frameworks, porous crystalline materials studied for carbon capture. Instead of slow quantum calculations, the forces come from machine-learned potentials, and the runs go on the institute’s GPU cluster. Advised by Prof. Marimuthu Krishnan.' },
       { title: 'Chubb Business Services India', meta: 'Summer Technology Intern · Jun – Jul 2026', text: 'Worked on JustAsk, a GenBI platform that turns natural-language business questions into SQL over enterprise insurance datasets using semantic modelling. I built business glossaries, metrics, relationships and metadata with engineering teams across India and Thailand to improve NL-to-SQL accuracy and query reliability.' },
       { title: 'Typeflo.io', meta: 'Product & Growth Intern · May – Oct 2025', text: 'Analysed search performance, indexing and engagement with Google Analytics and Search Console, and worked with the product team on discoverability, site structure and user engagement.' },
       { title: 'Megathon 2026', meta: 'Runners-up', text: 'Team Sushi Aur Ek built Minar for Vanguard’s community stewardship brief.' },
@@ -201,13 +202,16 @@ export const twin = {
     { id: 'people', label: 'people', color: C.red },
     { id: 'offscreen', label: 'off-screen', color: C.pink },
   ],
-  cards: ['intro', 'chubb', 'proud', 'hire', 'skills', 'systems', 'drama', 'cat', 'science', 'team', 'offscreen', 'awards', 'pixel', 'sat'],
+  cards: ['intro', 'research', 'chubb', 'proud', 'hire', 'skills', 'systems', 'drama', 'science', 'team', 'offscreen', 'awards', 'pixel', 'sat'],
   greeting: 'Hi, I’m Chandrani’s twin. You ask, I answer. Pick a card to start.',
   fallback: 'That one is not in my notes. I am a small retrieval script, so I only know what Chandrani wrote down for me. The real one answers email.',
   entries: [
     { id: 'intro', topic: 'about', q: 'Tell me about yourself.', keywords: ['yourself', 'introduce', 'introduction', 'who', 'background', 'summary', 'bio'],
-      a: 'I’m a computer science student at IIIT Hyderabad, in the dual-degree programme. I interned at Chubb on a natural-language-to-SQL platform, I have written a shell, a file system and a SAT solver, and off-screen I coordinate the dramatics club, paint and play classical music.',
+      a: 'I’m a computer science student at IIIT Hyderabad, in the dual-degree programme. I do molecular simulation research at CCNSB, I interned at Chubb on a natural-language-to-SQL platform, I have written a shell, a file system and a SAT solver, and off-screen I coordinate the dramatics club, paint and play classical music.',
       src: [{ label: 'About', to: 'about' }] },
+    { id: 'research', topic: 'experience', q: 'What is your research about?', keywords: ['research', 'researcher', 'ccnsb', 'lab', 'molecular', 'molecule', 'dynamics', 'simulation', 'simulations', 'md', 'cof', 'cofs', 'co2', 'carbon', 'capture', 'krishnan', 'professor', 'advisor', 'hpc', 'cluster', 'gpu', 'chemistry', 'physics', 'potential', 'potentials'],
+      a: 'I am an undergraduate researcher at CCNSB, the computational natural sciences centre at IIIT Hyderabad, working with Prof. Marimuthu Krishnan. I simulate how carbon dioxide is stored in and diffuses through covalent organic frameworks, which are porous crystals studied for carbon capture. The forces come from machine-learned potentials rather than full quantum calculations, and the simulations run on the institute’s GPU cluster.',
+      src: [{ label: 'Research and work → CCNSB', to: 'lead' }] },
     { id: 'chubb', topic: 'experience', q: 'What did you do at Chubb?', keywords: ['chubb', 'justask', 'genbi', 'sql', 'insurance', 'semantic', 'nl2sql', 'enterprise', 'thailand', 'summer', 'bi', 'analytics', 'data'],
       a: 'I was a Summer Technology Intern at Chubb in 2026, working on JustAsk, a GenBI platform that turns natural-language business questions into SQL over enterprise insurance datasets using semantic modelling. My part was the semantic layer: business glossaries, metrics, relationships and metadata, built with engineering teams across India and Thailand to make the generated queries more accurate and reliable.',
       src: [{ label: 'Work → Chubb', to: 'lead' }] },
