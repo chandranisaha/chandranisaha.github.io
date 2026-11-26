@@ -7,11 +7,12 @@ uniform float uScale;
 uniform vec3 uTint;
 uniform float uTintAmt;
 uniform float uWash;
+uniform float uMaxSize;
 varying vec3 vColor;
 void main() {
   vec4 mv = modelViewMatrix * vec4(position, 1.0);
   gl_Position = projectionMatrix * mv;
-  gl_PointSize = max(1.5, aSize * uScale / -mv.z);
+  gl_PointSize = clamp(aSize * uScale / -mv.z, 1.2, uMaxSize);
   vColor = mix(mix(aColor, vec3(0.96, 0.93, 0.87), uWash), uTint, uTintAmt);
 }`;
 
@@ -23,8 +24,6 @@ void main() {
   float a = smoothstep(0.5, 0.08, d);
   gl_FragColor = vec4(vColor, a * uOpacity);
 }`;
-
-const DUST = ['#f4ecdf', '#f4ecdf', '#ffb347', '#3ecfc0', '#ff7ab8', '#b79cff'];
 
 function unit(out, o) {
   const u = Math.random() * 2 - 1, a = Math.random() * Math.PI * 2, s = Math.sqrt(1 - u * u);
@@ -69,7 +68,7 @@ export function sampleText(text, count, width, oy = 0, maxH = Infinity) {
 
 /** Targets for the molecule: orbit rings and clouds round each atom, bonds, and far dust. */
 export function buildLayout(count, atoms, bonds) {
-  const nRing = Math.floor(count * 0.27), nShell = Math.floor(count * 0.2), nBond = Math.floor(count * 0.09);
+  const nRing = Math.floor(count * 0.34), nShell = Math.floor(count * 0.1), nBond = Math.floor(count * 0.1);
   const nOrb = nRing + nShell + nBond;
   const molecule = new Float32Array(count * 3), orb = new Float32Array(count * 3);
   const ring = new Float32Array(nRing * 11), color = new Float32Array(count * 3), size = new Float32Array(count);
@@ -96,12 +95,12 @@ export function buildLayout(count, atoms, bonds) {
       ring[k + 9] = a.r * (pi ? 1.34 : 1.6) + (Math.random() - 0.5) * 0.07;
       ring[k + 10] = (pi ? -1 : 1) * (0.25 + Math.random() * 0.2);
       molecule[j] = a.p.x; molecule[j + 1] = a.p.y; molecule[j + 2] = a.p.z;
-      paint(i, a.color, 0.25); size[i] = 0.05 + Math.random() * 0.04;
+      paint(i, a.color, 0.25); size[i] = 0.04 + Math.random() * 0.025;
     } else if (i < nRing + nShell) {
       const a = pick(); unit(d, 0);
       const r = a.r * (1.08 + Math.random() * Math.random() * 0.7);
       molecule[j] = a.p.x + d[0] * r; molecule[j + 1] = a.p.y + d[1] * r; molecule[j + 2] = a.p.z + d[2] * r;
-      paint(i, a.color, 0.45, 0.8); size[i] = 0.035 + Math.random() * 0.04;
+      paint(i, a.color, 0.45, 0.6); size[i] = 0.03 + Math.random() * 0.02;
     } else if (i < nOrb) {
       const [a, b] = bonds[(Math.random() * bonds.length) | 0], t = Math.random();
       unit(d, 0); const r = Math.random() * 0.07;
@@ -110,9 +109,9 @@ export function buildLayout(count, atoms, bonds) {
       molecule[j + 2] = a.p.z + (b.p.z - a.p.z) * t + d[2] * r;
       paint(i, '#f4ecdf', 1, 0.7); size[i] = 0.03 + Math.random() * 0.03;
     } else {
-      unit(d, 0); const r = 7 + Math.random() * 15;
+      unit(d, 0); const r = 10 + Math.random() * 16;
       molecule[j] = d[0] * r; molecule[j + 1] = d[1] * r * 0.8; molecule[j + 2] = d[2] * r - 3;
-      paint(i, DUST[(Math.random() * DUST.length) | 0], 0.2, 0.75); size[i] = 0.04 + Math.random() * 0.1;
+      paint(i, '#f4ecdf', 1, 0.42); size[i] = 0.03 + Math.random() * 0.03;
     }
   }
   // Fibonacci sphere for the twin's orb.
@@ -144,7 +143,7 @@ export class Particles {
     geo.setAttribute('aSize', new THREE.BufferAttribute(layout.size, 1));
     this.material = new THREE.ShaderMaterial({
       vertexShader: VERT, fragmentShader: FRAG,
-      uniforms: { uScale: { value: 600 }, uOpacity: { value: 0.8 }, uTint: { value: new THREE.Color('#ffb347') }, uTintAmt: { value: 0 }, uWash: { value: 0.6 } },
+      uniforms: { uScale: { value: 600 }, uMaxSize: { value: 9 }, uOpacity: { value: 0.72 }, uTint: { value: new THREE.Color('#ffb347') }, uTintAmt: { value: 0 }, uWash: { value: 0.6 } },
       transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
     });
     this.points = new THREE.Points(geo, this.material);

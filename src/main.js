@@ -36,17 +36,6 @@ function confetti(n = 70) {
   }
 }
 
-function hearts() {
-  const p = world?.catScreen() || { x: innerWidth / 2, y: innerHeight / 2 };
-  for (let i = 0; i < 6; i++) {
-    const el = document.createElement('span');
-    el.className = 'heart'; el.textContent = '♥';
-    el.style.cssText = `left:${p.x}px;top:${p.y}px;--dx:${(Math.random() - 0.5) * 120}px;--rot:${(Math.random() - 0.5) * 60}deg;animation-delay:${i * 0.07}s`;
-    fx.appendChild(el);
-    setTimeout(() => el.remove(), 1900);
-  }
-}
-
 const goTo = key => document.getElementById(key === 'core' ? 'twin' : key)?.scrollIntoView({ behavior: calm ? 'auto' : 'smooth', block: 'start' });
 
 // Modes
@@ -92,12 +81,6 @@ function hire() {
   confetti(120);
   toast('Access granted. Opening a line to the real Chandrani.');
   setTimeout(() => { location.href = `mailto:${me.email}?subject=${encodeURIComponent('sudo hire chandrani')}`; }, 1400);
-}
-
-function pet() {
-  world?.pet();
-  hearts();
-  sound.meow();
 }
 
 // Buttons with data-action
@@ -155,7 +138,6 @@ const palette = createPalette($('#palette'), [
   { label: 'résumé', hint: 'the quick version', run: toggleMode },
   { label: 'sound', hint: 'toggle', run: () => setSound(!sound.on) },
   { label: 'paint', hint: 'toggle brush', run: () => setPaint(!paint.on) },
-  { label: 'meow', hint: 'pet the cat', run: pet },
   { label: 'dance', hint: '♪', run: dance },
   { label: 'email', hint: me.email, run: () => { location.href = `mailto:${me.email}`; } },
   { label: 'sudo hire chandrani', hint: 'root', hidden: true, run: hire },
@@ -176,11 +158,10 @@ addEventListener('keydown', e => {
 
 // 3D world
 const sections = ORDER.map(key => ({ key, el: document.getElementById(key) }));
-const noteOf = Object.fromEntries(['core', ...chapters.map(c => c.key), 'cation'].map((k, i) => [k, i]));
+const noteOf = Object.fromEntries(['core', ...chapters.map(c => c.key)].map((k, i) => [k, i]));
 
 try {
   world = await createWorld({ canvas: $('#world'), labelsEl: $('#labels'), sections, chapters, word: me.word, calm });
-  world.on('pet', () => { hearts(); sound.meow(); });
   world.on('section', key => setRail(key));
   world.on('atom', key => { sound.note(noteOf[key] ?? 0); goTo(key); });
   world.on('hover', key => {

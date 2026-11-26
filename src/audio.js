@@ -26,15 +26,6 @@ export const sound = {
   set(v) { on = v; if (on) { ensure(); tone(523.25, 0.5, 'triangle', 0.14); tone(783.99, 0.7, 'sine', 0.08, 0.09); } },
   note(i) { if (!on) return; ensure(); const f = SCALE[((i % SCALE.length) + SCALE.length) % SCALE.length]; tone(f, 1.3, 'triangle', 0.16); tone(f * 2, 0.7, 'sine', 0.05); },
   blip(i = 0) { if (!on) return; ensure(); tone(620 + (i % 5) * 45, 0.05, 'sine', 0.035); },
-  meow() {
-    if (!on) return; ensure();
-    const t = ctx.currentTime, o = ctx.createOscillator(), f = ctx.createBiquadFilter(), g = ctx.createGain();
-    o.type = 'sawtooth';
-    o.frequency.setValueAtTime(520, t); o.frequency.exponentialRampToValueAtTime(880, t + 0.14); o.frequency.exponentialRampToValueAtTime(470, t + 0.5);
-    f.type = 'bandpass'; f.Q.value = 4; f.frequency.setValueAtTime(900, t); f.frequency.linearRampToValueAtTime(1900, t + 0.18); f.frequency.linearRampToValueAtTime(1000, t + 0.5);
-    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.25, t + 0.05); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.55);
-    o.connect(f); f.connect(g); g.connect(master); o.start(t); o.stop(t + 0.6);
-  },
   beat(seconds) {
     if (!on) return; ensure();
     clearInterval(beatTimer);

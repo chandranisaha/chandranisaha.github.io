@@ -49,7 +49,7 @@ function makeBond(a, b) {
   return m;
 }
 
-/** The molecule: a core, one atom per chapter, and the cat-ion where the cat lives. */
+/** The molecule: a core and one atom per chapter. */
 export function buildAtoms(chapters, scene) {
   const mol = new THREE.Group();
   scene.add(mol);
@@ -62,7 +62,6 @@ export function buildAtoms(chapters, scene) {
   core.group.add(wire, heart);
 
   for (const c of chapters) add({ key: c.key, label: c.label, p: c.atom, r: 1, color: c.color, side: c.side === 'left' ? 1 : -1 }, mol);
-  const cation = add({ key: 'cation', label: 'the cat', p: [4.2, -3.3, 1.6], r: 0.5, color: '#f4ecdf' }, scene);
 
   const bonds = [];
   for (const a of list) {

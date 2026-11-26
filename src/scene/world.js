@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import { Particles, buildLayout, sampleText } from './particles.js';
 import { buildAtoms } from './molecule.js';
-import { createCat } from './cat.js';
 
 const clamp01 = x => Math.min(1, Math.max(0, x));
 const smooth = (a, b, x) => { const t = clamp01((x - a) / (b - a)); return t * t * (3 - 2 * t); };
@@ -20,12 +19,10 @@ export async function createWorld({ canvas, labelsEl, sections, chapters, word, 
   sun.position.set(4, 7, 9); scene.add(sun);
 
   const A = buildAtoms(chapters, scene);
-  for (const a of A.list) { a.p = a.base; a.w = a.key === 'core' ? 1.4 : a.key === 'cation' ? 0.3 : 1; }
-  const cat = createCat();
-  scene.add(cat.root);
-  const hits = [...A.hits, cat.hit];
+  for (const a of A.list) { a.p = a.base; a.w = a.key === 'core' ? 1.4 : 1; }
+  const hits = A.hits;
 
-  const count = calm ? 5000 : mobile ? 7000 : 15000;
+  const count = calm ? 4000 : mobile ? 5000 : 9000;
   const particles = new Particles(count, buildLayout(count, A.list, A.bonds));
   scene.add(particles.points);
 
@@ -55,6 +52,7 @@ export async function createWorld({ canvas, labelsEl, sections, chapters, word, 
     renderer.setSize(W, H, false);
     camera.aspect = W / H; camera.updateProjectionMatrix();
     particles.material.uniforms.uScale.value = (H * renderer.getPixelRatio()) / (2 * tanF);
+    particles.material.uniforms.uMaxSize.value = 6 * renderer.getPixelRatio();
     heroDist = Math.max(14, 5.2 / (tanF * camera.aspect));
     heroText = sampleText(word, count, Math.min(13, 0.84 * 2 * tanF * heroDist * camera.aspect));
     wordCache.clear(); contactText = sampleWord(contactWord);
@@ -84,7 +82,6 @@ export async function createWorld({ canvas, labelsEl, sections, chapters, word, 
       dir.set(a.base.x * 0.3, a.base.y * 0.08 + 0.2, a.base.z * 0.3 + 1).normalize();
       out.pos.copy(a.base).addScaledVector(dir, portrait ? 7.5 : 4.7);
       out.look.copy(a.base); side = a.side;
-      out.pos.y += 0.4; out.look.y += 0.4; // leave headroom for the cat
     }
     if (!side) return;
     const dist = out.pos.distanceTo(out.look);
@@ -97,14 +94,14 @@ export async function createWorld({ canvas, labelsEl, sections, chapters, word, 
   // Pointer state.
   const ndc = new THREE.Vector2(0, 0), raycaster = new THREE.Raycaster();
   const ray = { ox: 0, oy: 0, oz: 0, dx: 0, dy: 0, dz: 1 };
-  let pointerIn = false, overCanvas = false, holding = false, holdStart = 0, burst = 0, hoverKey = null, hoverCat = false;
+  let pointerIn = false, overCanvas = false, holding = false, holdStart = 0, burst = 0, hoverKey = null;
   let f = 0, reveal = 0, paused = false, dancing = false, speak = 0, speakGoal = 0, think = 0, thinkGoal = 0, lastBeat = -1;
 
   function pick() {
     raycaster.setFromCamera(ndc, camera);
     for (const h of raycaster.intersectObjects(hits, false)) {
       const d = h.object.userData;
-      if (d.type === 'cat' || d.key === 'cation' || reveal > 0.6) return d;
+      if (reveal > 0.6) return d;
     }
     return null;
   }
@@ -128,22 +125,13 @@ export async function createWorld({ canvas, labelsEl, sections, chapters, word, 
   canvas.addEventListener('click', () => {
     const d = pick();
     if (!d) return;
-    if (d.type === 'cat' || d.key === 'cation') { cat.pet(); emit('pet'); }
-    else emit('atom', d.key);
+    emit('atom', d.key);
   });
 
   const sa = { pos: new THREE.Vector3(), look: new THREE.Vector3() }, sb = { pos: new THREE.Vector3(), look: new THREE.Vector3() };
   const goalPos = new THREE.Vector3(), goalLook = new THREE.Vector3(), camPos = new THREE.Vector3(), camLook = new THREE.Vector3();
-  const tmp = new THREE.Vector3(), ts = new THREE.Vector3(), perch = new THREE.Vector3();
-  let first = true, last = performance.now() / 1000, perchKey = null;
-
-  function perchPos(key, out) {
-    if (key === 'twin') return out.set(0, 1.5, 0);
-    const a = key === 'about' ? A.atoms.core : A.atoms[key] || A.atoms.cation;
-    a.group.getWorldPosition(out); a.group.getWorldScale(ts);
-    out.y += a.r * ts.y * 0.95;
-    return out;
-  }
+  const tmp = new THREE.Vector3(), ts = new THREE.Vector3();
+  let first = true, last = performance.now() / 1000, sectionKey = null;
 
   function frame(now) {
     requestAnimationFrame(frame);
@@ -171,7 +159,8 @@ export async function createWorld({ canvas, labelsEl, sections, chapters, word, 
     const i0 = Math.floor(f), i1 = Math.min(keys.length - 1, i0 + 1), u = f - i0;
     shot(keys[i0], sa); shot(keys[i1], sb);
     goalPos.lerpVectors(sa.pos, sb.pos, u); goalLook.lerpVectors(sa.look, sb.look, u);
-    goalPos.z += Math.sin(u * Math.PI) * 1.3;
+    // Between shots the camera pulls back, so it never grazes an atom on the way past.
+    goalPos.z += Math.sin(u * Math.PI) * 4;
     if (!calm) { goalPos.x += ndc.x * 0.25; goalPos.y += ndc.y * 0.18; }
     const kc = first ? 1 : 1 - Math.exp(-dt * 4.5);
     camPos.lerp(goalPos, kc); camLook.lerp(goalLook, kc);
@@ -188,9 +177,8 @@ export async function createWorld({ canvas, labelsEl, sections, chapters, word, 
 
     // Hover.
     const d = pointerIn && overCanvas ? pick() : null;
-    const hk = d && d.type === 'atom' ? d.key : null, hc = !!d && d.type === 'cat';
+    const hk = d && d.type === 'atom' ? d.key : null;
     if (hk !== hoverKey) { hoverKey = hk; if (hk) emit('hover', hk); }
-    hoverCat = hc;
     canvas.style.cursor = d ? 'pointer' : '';
 
     const ks = 1 - Math.exp(-dt * 6);
@@ -202,8 +190,7 @@ export async function createWorld({ canvas, labelsEl, sections, chapters, word, 
     A.update(t, dt, { reveal, hoverKey, pulse, calm, speak });
 
     const sk = keys[Math.round(f)];
-    if (sk !== perchKey) { perchKey = sk; cat.jump(); emit('section', sk); }
-    cat.update(t, dt, { perch: perchPos(perchKey, perch), camera, ndc, dance: dancing, pulse, calm });
+    if (sk !== sectionKey) { sectionKey = sk; emit('section', sk); }
 
     raycaster.setFromCamera(ndc, camera);
     const R = raycaster.ray;
@@ -222,7 +209,7 @@ export async function createWorld({ canvas, labelsEl, sections, chapters, word, 
       a.group.getWorldPosition(tmp); a.group.getWorldScale(ts);
       tmp.y -= a.r * ts.y + 0.3;
       tmp.project(camera);
-      const op = tmp.z < 1 ? Math.max(baseOp, a.hover, a.key === 'cation' && hoverCat ? 1 : 0) : 0;
+      const op = tmp.z < 1 ? Math.max(baseOp, a.hover) : 0;
       a.labelEl.style.opacity = op.toFixed(2);
       if (op > 0.01) a.labelEl.style.transform = `translate(${Math.min(W - 52, Math.max(52, (tmp.x * 0.5 + 0.5) * W)).toFixed(1)}px,${((-tmp.y * 0.5 + 0.5) * H).toFixed(1)}px) translate(-50%,0)`;
     }
@@ -237,7 +224,7 @@ export async function createWorld({ canvas, labelsEl, sections, chapters, word, 
   requestAnimationFrame(frame);
   if (import.meta.env.DEV) {
     // Dev only: step the simulation by hand (rAF is frozen in a hidden tab).
-    window.__dbg = { particles, camera, cat, get f() { return f; }, advance(n = 60) { let t = performance.now(); for (let i = 0; i < n; i++) tick((t += 16.7)); } };
+    window.__dbg = { particles, camera, get f() { return f; }, advance(n = 60) { let t = performance.now(); for (let i = 0; i < n; i++) tick((t += 16.7)); } };
   }
 
   return {
@@ -246,13 +233,10 @@ export async function createWorld({ canvas, labelsEl, sections, chapters, word, 
     setDance(v) { dancing = v; },
     setThink(v) { thinkGoal = v; },
     setSpeak(v, color) { speakGoal = v; if (color) particles.material.uniforms.uTint.value.set(color); },
-    pet() { cat.pet(); },
     /** Change the word the particles spell in the contact section. */
     setWord(w) { contactWord = w; contactText = sampleWord(w); },
     setStage(act) { A.atoms.rhythm?.mini?.userData.setMode?.(act); },
     kick(n = 2) { particles.kick(n); },
-    /** Screen position of the cat's head, for hearts. */
-    catScreen() { tmp.copy(cat.root.position); tmp.y += 0.7; tmp.project(camera); return { x: (tmp.x * 0.5 + 0.5) * W, y: (-tmp.y * 0.5 + 0.5) * H }; },
-    get section() { return perchKey; },
+    get section() { return sectionKey; },
   };
 }
