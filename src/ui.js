@@ -134,18 +134,29 @@ function story() {
   </section>`;
 }
 
+const SOUND_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><path class="spk" d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path class="wv w1" d="M15.5 9.2a4 4 0 0 1 0 5.6"/><path class="wv w2" d="M18.3 6.6a7.6 7.6 0 0 1 0 10.8"/><path class="mute" d="M16 9.5l5 5m0-5l-5 5"/></svg>`;
+
 function nav() {
+  const sections = ORDER.filter(k => NAV[k]);
   return `
   <button class="brand" data-action="top" aria-label="${esc(me.name)}, back to top">
     <span class="brand-name">${esc(me.name)}</span>
-    <span class="brand-meta"><i class="live" aria-hidden="true"></i>Hyderabad <span data-clock></span> IST</span>
+    <span class="brand-meta">CS · IIIT Hyderabad</span>
   </button>
-  <nav class="rail" aria-label="Sections">${ORDER.filter(k => NAV[k]).map(k => `<button data-go="${k}">${esc(NAV[k])}</button>`).join('')}<i class="rail-ind" aria-hidden="true"></i></nav>
+  <nav class="rail" aria-label="Sections">${sections.map(k => `<button data-go="${k}">${esc(NAV[k])}</button>`).join('')}<i class="rail-ind" aria-hidden="true"></i></nav>
   <div class="nav-right">
-    <button class="pill" id="sound-btn" aria-pressed="false" title="Sound"><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="lbl">Sound off</span></button>
-    <button class="pill kbd" data-action="palette" title="Command palette">Ctrl K</button>
-    <button class="pill mode" data-action="resume" title="Plain résumé view"><span class="when-explore">Quick résumé</span><span class="when-resume">Back to the full site</span></button>
+    <button class="hbtn icon" id="sound-btn" aria-pressed="false" aria-label="Sound off">${SOUND_ICON}</button>
+    <button class="hbtn cta" data-action="resume"><span class="when-explore">Résumé</span><span class="when-resume">Full site</span></button>
+    <button class="hbtn icon menu-btn" data-action="menu" aria-label="Open menu" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
   </div>`;
+}
+
+function menu() {
+  const sections = ORDER.filter(k => NAV[k]);
+  return `
+  <div class="menu-head"><span>Sections</span><button class="hbtn icon" data-close aria-label="Close menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <ol class="menu-list">${sections.map((k, i) => `<li><button data-go="${k}"><span>${String(i).padStart(2, '0')}</span>${esc(NAV[k])}</button></li>`).join('')}</ol>
+  <div class="menu-foot"><a href="mailto:${me.email}">${me.email}</a><span><a href="${me.linkedin}" ${ext}>LinkedIn</a><a href="${me.github}" ${ext}>GitHub</a></span></div>`;
 }
 
 function resume() {
@@ -172,6 +183,7 @@ function resume() {
 /** Build the page from content.js. */
 export function renderApp() {
   document.getElementById('nav').innerHTML = nav();
+  document.getElementById('menu').innerHTML = menu();
   document.getElementById('story').innerHTML = story();
   document.getElementById('resume').innerHTML = resume();
   const io = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('in', e.isIntersecting)), { threshold: 0.12 });

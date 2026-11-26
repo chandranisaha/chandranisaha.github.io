@@ -54,7 +54,7 @@ const soundBtn = $('#sound-btn');
 function setSound(v) {
   sound.set(v);
   soundBtn.setAttribute('aria-pressed', String(v));
-  soundBtn.querySelector('.lbl').textContent = v ? 'Sound on' : 'Sound off';
+  soundBtn.setAttribute('aria-label', v ? 'Sound on' : 'Sound off');
 }
 soundBtn.addEventListener('click', () => setSound(!sound.on));
 
@@ -91,16 +91,19 @@ const actions = {
   paint: () => setPaint(!paint.on),
   sound: () => setSound(!sound.on),
   palette: () => palette.open(),
+  menu: () => { setRail(); menuEl.showModal(); },
   dance,
 };
 document.addEventListener('click', e => {
   const b = e.target.closest('[data-action]');
   if (b && actions[b.dataset.action]) actions[b.dataset.action]();
   const g = e.target.closest('[data-go]');
-  if (g) goTo(g.dataset.go);
+  if (g) { if (menuEl.open) menuEl.close(); goTo(g.dataset.go); }
 });
 
 // Header: the section rail follows the scroll, and a hairline shows how far down the page you are.
+const nav = $('#nav'), menuEl = $('#menu');
+menuEl.addEventListener('click', e => { if (e.target === menuEl || e.target.closest('[data-close]')) menuEl.close(); });
 const rail = $('.rail'), railInd = $('.rail-ind'), railBtns = [...document.querySelectorAll('.rail [data-go]')];
 const colorOf = Object.fromEntries(chapters.map(c => [c.key, c.color]));
 let railKey = null;
@@ -108,6 +111,7 @@ function setRail(key = railKey) {
   railKey = key;
   const b = railBtns.find(x => x.dataset.go === key);
   railBtns.forEach(x => x.classList.toggle('on', x === b));
+  menuEl.querySelectorAll('[data-go]').forEach(x => x.classList.toggle('on', x.dataset.go === key));
   railInd.style.opacity = b ? 1 : 0;
   if (!b) return;
   rail.style.setProperty('--rc', colorOf[key] || '#ffb347');
@@ -120,6 +124,7 @@ document.fonts?.ready.then(() => setRail());
 const progress = $('#progress');
 let progressQueued = false;
 addEventListener('scroll', () => {
+  nav.classList.toggle('solid', scrollY > 24);
   if (progressQueued) return;
   progressQueued = true;
   requestAnimationFrame(() => {
@@ -128,10 +133,6 @@ addEventListener('scroll', () => {
     progress.style.transform = `scaleX(${max > 0 ? Math.min(1, scrollY / max) : 0})`;
   });
 }, { passive: true });
-
-const clock = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Kolkata' });
-const tickClock = () => document.querySelectorAll('[data-clock]').forEach(el => { el.textContent = clock.format(new Date()); });
-tickClock(); setInterval(tickClock, 20000);
 
 const palette = createPalette($('#palette'), [
   ...ORDER.filter(k => NAV[k]).map(k => ({ label: `go ${NAV[k]}`, hint: 'jump', run: () => goTo(k) })),
